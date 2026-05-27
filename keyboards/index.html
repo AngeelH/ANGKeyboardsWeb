@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANG Shop – Teclados Mecánicos Minimalistas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/phosphor-icons@1.4.2/src/bold/style.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #FFFFFF;
+            color: #2F3437;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Instrument Serif', 'Playfair Display', serif;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #111111;
+        }
+
+        .text-secondary {
+            color: #787774;
+        }
+
+        .border-light {
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+
+        .card {
+            border: 1px solid #EAEAEA;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transform: translateY(-1px);
+        }
+
+        .btn {
+            background: #111111;
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 4px;
+            border: none;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 200ms ease;
+            font-size: 14px;
+            letter-spacing: 0.01em;
+        }
+
+        .btn:hover {
+            background: #333333;
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: #F7F6F3;
+            color: #111111;
+            border: 1px solid #EAEAEA;
+        }
+
+        .btn-secondary:hover {
+            background: #EEEEEE;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #FDEBEC;
+            color: #9F2F2D;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .tag.blue {
+            background: #E1F3FE;
+            color: #1F6C9F;
+        }
+
+        .tag.green {
+            background: #EDF3EC;
+            color: #346538;
+        }
+
+        /* Animaciones sutiles */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in-on-scroll {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .fade-in-on-scroll.visible {
+            animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .stagger-item.visible {
+            animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Ambientes de fondo sutil */
+        .ambient-bg {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ambient-blob {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.02;
+            border-radius: 50%;
+        }
+
+        .blob-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #111111, transparent);
+            top: -200px;
+            right: -200px;
+            animation: drift 20s ease-in-out infinite;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 50px); }
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .hero-section {
+            padding: 120px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .content-max {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 80px 24px;
+        }
+
+        .keystroke {
+            display: inline-block;
+            border: 1px solid #EAEAEA;
+            border-radius: 4px;
+            background: #F7F6F3;
+            padding: 6px 10px;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            font-size: 12px;
+            margin: 0 2px;
+            color: #111111;
+        }
+
+        .kbd {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+            border: 1px solid #EAEAEA;
+            border-radius: 4px;
+            background: #F7F6F3;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: #111111;
+        }
+
+        .mac-window {
+            border: 1px solid #EAEAEA;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #FFFFFF;
+        }
+
+        .mac-window-header {
+            height: 32px;
+            background: #F7F6F3;
+            border-bottom: 1px solid #EAEAEA;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 8px;
+        }
+
+        .mac-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #D4D3CE;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #EAEAEA;
+            padding: 20px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-toggle {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 500;
+            color: #111111;
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 300ms ease;
+            color: #787774;
+            margin-top: 12px;
+        }
+
+        .faq-content.open {
+            max-height: 500px;
+        }
+
+        .icon-toggle {
+            transition: transform 200ms ease;
+        }
+
+        .icon-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            border: 1px solid #EAEAEA;
+            border-radius: 4px;
+            padding: 12px 16px;
+            font-family: inherit;
+            color: #111111;
+            background: #FFFFFF;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #787774;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: #111111;
+        }
+
+        @media (max-width: 640px) {
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .hero-section {
+                padding: 80px 24px;
+            }
+
+            section {
+                padding: 60px 24px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur bg-stone-900/10 border-light border-b">
+        <div class="content-max mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-semibold text-lg tracking-tight">ANG Shop</div>
+            <div class="flex gap-8 items-center">
+                <a href="#productos" class="text-secondary hover:text-black transition text-sm">Productos</a>
+                <a href="#especificaciones" class="text-secondary hover:text-black transition text-sm">Specs</a>
+                <a href="#faq" class="text-secondary hover:text-black transition text-sm">FAQ</a>
+                <button class="btn">Comprar</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section ambient-bg">
+        <div class="ambient-blob blob-1"></div>
+        <div class="content-max relative z-10">
+            <div class="mb-6 fade-in-on-scroll">
+                <span class="tag">Ahora disponible</span>
+            </div>
+            <h1 class="text-6xl fade-in-on-scroll" style="animation-delay: 80ms">Ingeniería de Precisión</h1>
+            <p class="text-xl text-secondary mt-6 max-w-2xl mx-auto fade-in-on-scroll" style="animation-delay: 160ms">
+                Teclados mecánicos minimalistas diseñados para el trabajo profundo. Sin distracciones. Sin ruido. Solo diseño.
+            </p>
+            <div class="mt-12 flex gap-4 justify-center fade-in-on-scroll" style="animation-delay: 240ms">
+                <button class="btn">Explorar colección</button>
+                <button class="btn btn-secondary">Ver especificaciones</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="bg-stone-50 border-light border-t">
+        <div class="content-max mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Image Column (7/12) -->
+                <div class="lg:col-span-7 fade-in-on-scroll">
+                    <div class="bg-gradient-to-br from-stone-200 to-stone-100 rounded-lg overflow-hidden">
+                        <img src="imagenes/arqui1.png" alt="Arquitectura interna del teclado mecánico" class="w-full h-auto object-cover rounded-lg" />
+                    </div>
+                </div>
+                <!-- Text Column (5/12) -->
+                <div class="lg:col-span-5 fade-in-on-scroll" style="animation-delay: 120ms">
+                    <h2 class="text-4xl mb-6">Ingeniería de Precisión</h2>
+                    <p class="text-secondary mb-6 leading-relaxed">
+                        Cada teclado ANG Shop es el resultado de años de investigación en diseño mecánico. Nuestros switches están calibrados al milímetro, cada resorte tensionado con precisión óptica, cada contacto de latón chapado en oro para durabilidad extrema.
+                    </p>
+                    <p class="text-secondary mb-8 leading-relaxed">
+                        El proceso de ensamble es completamente manual. Nuestros técnicos prueban cada unidad durante 48 horas antes del envío, validando latencia, respuesta y sonido. Cero compromiso. Cero defectos aceptados.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex gap-3 items-start">
+                            <span class="text-sm font-mono text-secondary mt-1">→</span>
+                            <span class="text-sm">Switches Cherry MX grado industrial</span>
+                        </li>
+                        <li class="flex gap-3 items-start">
+                            <span class="text-sm font-mono text-secondary mt-1">→</span>
+                            <span class="text-sm">Estabilizadores Durock de precisión láser</span>
+                        </li>
+                        <li class="flex gap-3 items-start">
+                            <span class="text-sm font-mono text-secondary mt-1">→</span>
+                            <span class="text-sm">Contactos de latón chapado en oro 24k</span>
+                        </li>
+                        <li class="flex gap-3 items-start">
+                            <span class="text-sm font-mono text-secondary mt-1">→</span>
+                            <span class="text-sm">PCB dampening reforzado con espuma de aviación</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="productos" class="bg-white border-light border-t">
+        <div class="content-max mx-auto">
+            <h2 class="text-5xl mb-12 fade-in-on-scroll">Nuestros teclados</h2>
+            
+            <div class="grid-3">
+                <div class="card stagger-item" style="animation-delay: 0ms">
+                    <div class="h-48 bg-gradient-to-br from-stone-100 to-stone-50 rounded mb-6 flex items-center justify-center overflow-hidden">
+                        <img src="imagenes/animado1.png" alt="ANG Shop Silent - Teclado mecánico silencioso" class="w-full h-full object-cover" />
+                    </div>
+                    <span class="tag">Switch silencioso</span>
+                    <h3 class="text-xl font-semibold mt-4 mb-2">ANG Silent</h3>
+                    <p class="text-secondary text-sm mb-6">Switches mecánicos de baja fricción. 60g actuación lineal. Ideal para espacios compartidos.</p>
+                    <div class="mb-6">
+                        <span class="text-2xl font-bold">$189</span>
+                    </div>
+                    <button class="btn w-full">Añadir al carrito</button>
+                </div>
+
+                <div class="card stagger-item" style="animation-delay: 80ms">
+                    <div class="h-48 bg-gradient-to-br from-stone-100 to-stone-50 rounded mb-6 flex items-center justify-center overflow-hidden">
+                        <img src="imagenes/animado1.png" alt="ANG Shop Compact - Teclado mecánico compacto" class="w-full h-full object-cover" />
+                    </div>
+                    <span class="tag blue">Switch táctil</span>
+                    <h3 class="text-xl font-semibold mt-4 mb-2">ANG Compact</h3>
+                    <p class="text-secondary text-sm mb-6">60% compacto. Switches gateron clicky. Perfecto para viajeros y minimalistas.</p>
+                    <div class="mb-6">
+                        <span class="text-2xl font-bold">$149</span>
+                    </div>
+                    <button class="btn w-full">Añadir al carrito</button>
+                </div>
+
+                <div class="card stagger-item" style="animation-delay: 160ms">
+                    <div class="h-48 bg-gradient-to-br from-stone-100 to-stone-50 rounded mb-6 flex items-center justify-center overflow-hidden">
+                        <img src="imagenes/animado1.png" alt="ANG Shop Pro - Teclado mecánico profesional" class="w-full h-full object-cover" />
+                    </div>
+                    <span class="tag green">Switch lineal</span>
+                    <h3 class="text-xl font-semibold mt-4 mb-2">ANG Pro</h3>
+                    <p class="text-secondary text-sm mb-6">Layout full-size con switches lineales de precisión. La opción para profesionales.</p>
+                    <div class="mb-6">
+                        <span class="text-2xl font-bold">$249</span>
+                    </div>
+                    <button class="btn w-full">Añadir al carrito</button>
+                </div>
+
+                <div class="card stagger-item" style="animation-delay: 240ms">
+                    <div class="h-48 bg-gradient-to-br from-stone-100 to-stone-50 rounded mb-6 flex items-center justify-center overflow-hidden">
+                        <img src="imagenes/animado1.png" alt="ANG Shop Stealth - Teclado mecánico edición especial" class="w-full h-full object-cover" />
+                    </div>
+                    <span class="tag">Edición especial</span>
+                    <h3 class="text-xl font-semibold mt-4 mb-2">ANG Stealth</h3>
+                    <p class="text-secondary text-sm mb-6">Diseño ultra-delgado con keycaps optimizados para máxima velocidad y respuesta táctil silenciosa.</p>
+                    <div class="mb-6">
+                        <span class="text-2xl font-bold">$219</span>
+                    </div>
+                    <button class="btn w-full">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="especificaciones" class="bg-stone-50">
+        <div class="content-max mx-auto">
+            <h2 class="text-5xl mb-12 fade-in-on-scroll">Diseñado con precisión</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="fade-in-on-scroll">
+                    <h3 class="text-2xl font-semibold mb-4">Minimalismo radical</h3>
+                    <p class="text-secondary mb-4">Cada componente de ANG Shop tiene un propósito. Sin decoración innecesaria, solo líneas limpias y geometría perfecta. Inspirado en el diseño escandinavo y la filosofía Apple.</p>
+                    <ul class="space-y-3">
+                        <li class="flex gap-3">
+                            <span class="text-xl">✓</span>
+                            <span>Carcasa de aluminio anodizado</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-xl">✓</span>
+                            <span>Switches mecánicos cherry compatibles</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-xl">✓</span>
+                            <span>Conectividad USB-C</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-xl">✓</span>
+                            <span>Garanía de por vida</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="fade-in-on-scroll" style="animation-delay: 120ms">
+                    <h3 class="text-2xl font-semibold mb-4">Rendimiento sin compromiso</h3>
+                    <p class="text-secondary mb-4">Respuesta instantánea, actitud duradera. Desarrollado por ingenieros y testeado por typists profesionales en todo el mundo.</p>
+                    <ul class="space-y-3">
+                        <li class="flex gap-3">
+                            <span class="text-xl">✓</span>
+                            <span>Actitud de 60 millones de pulsaciones</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-xl">✓</span>
+                            <span>Latencia &lt; 1ms</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-xl">✓</span>
+                            <span>Conexión inalámbrica opcional</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-xl">✓</span>
+                            <span>Batería de 120 horas</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specifications Technical -->
+    <section class="bg-white">
+        <div class="content-max mx-auto">
+            <h2 class="text-5xl mb-12 fade-in-on-scroll">Especificaciones técnicas</h2>
+            
+            <div class="card fade-in-on-scroll">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-semibold mb-4 text-sm uppercase tracking-wide text-secondary">Construcción</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><span class="text-secondary">Carcasa:</span> Aluminio 6061</li>
+                            <li><span class="text-secondary">Peso:</span> 820g</li>
+                            <li><span class="text-secondary">Dimensiones:</span> 28.5 × 10 × 3.5cm</li>
+                            <li><span class="text-secondary">Acabado:</span> Anodizado mate</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4 text-sm uppercase tracking-wide text-secondary">Switches</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><span class="text-secondary">Compatibilidad:</span> Cherry MX</li>
+                            <li><span class="text-secondary">Tipo:</span> Mecánico</li>
+                            <li><span class="text-secondary">Actitud:</span> 60M toques</li>
+                            <li><span class="text-secondary">Montaje:</span> Hot-swappable</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4 text-sm uppercase tracking-wide text-secondary">Conectividad</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><span class="text-secondary">Puerto:</span> USB-C 3.1</li>
+                            <li><span class="text-secondary">Wireless:</span> Bluetooth 5.0</li>
+                            <li><span class="text-secondary">Protocolos:</span> N-Key Rollover</li>
+                            <li><span class="text-secondary">Compatibilidad:</span> macOS, Windows, Linux</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="bg-stone-50">
+        <div class="content-max mx-auto">
+            <h2 class="text-5xl mb-12 fade-in-on-scroll">Lo que dicen nuestros clientes</h2>
+            
+            <div class="grid-2">
+                <div class="card stagger-item" style="animation-delay: 0ms">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="font-semibold">María García</h4>
+                            <p class="text-sm text-secondary">Diseñadora UX</p>
+                        </div>
+                        <span class="text-sm">★★★★★</span>
+                    </div>
+                    <p class="text-secondary">«El Prism cambió completamente mi experiencia trabajando. La calidad de construcción es excepcional y el sonido es tan sutil que casi no lo noto, solo el feedback perfecto.»</p>
+                </div>
+
+                <div class="card stagger-item" style="animation-delay: 80ms">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="font-semibold">Carlos Rodríguez</h4>
+                            <p class="text-sm text-secondary">Desarrollador Full-Stack</p>
+                        </div>
+                        <span class="text-sm">★★★★★</span>
+                    </div>
+                    <p class="text-secondary">«Después de probar varios teclados mecánicos, este es el que mejor se adapta a mi estilo de trabajo. Minimalista, confiable, hermoso.»</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="bg-white">
+        <div class="content-max mx-auto">
+            <h2 class="text-5xl mb-12 fade-in-on-scroll">Preguntas frecuentes</h2>
+            
+            <div class="fade-in-on-scroll">
+                <div class="faq-item">
+                    <div class="faq-toggle" onclick="toggleFaq(this)">
+                        <span>¿Son los switches removibles?</span>
+                        <span class="icon-toggle">▼</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>Sí, todos nuestros teclados tienen hot-swap. Puedes cambiar los switches sin soldar. Compatible con Cherry MX y clones.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-toggle" onclick="toggleFaq(this)">
+                        <span>¿Cuál es el tiempo de entrega?</span>
+                        <span class="icon-toggle">▼</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>Entrega gratis en 3-5 días hábiles. Para envíos internacionales, 7-10 días. Tracking incluido en todas las órdenes.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-toggle" onclick="toggleFaq(this)">
+                        <span>¿Puedo personalizar los keycaps?</span>
+                        <span class="icon-toggle">▼</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>Absolutamente. Ofrecemos sets de keycaps premium en diferentes colores y materiales. Compatibles con todos nuestros modelos.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-toggle" onclick="toggleFaq(this)">
+                        <span>¿Cuál es la política de devolución?</span>
+                        <span class="icon-toggle">▼</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>Garantía de 30 días sin preguntas. Si no estás satisfecho, devolvemos tu dinero. Después, cobertura de por vida en defectos de fabricación.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="bg-stone-50 border-light border-t">
+        <div class="content-max mx-auto text-center">
+            <h2 class="text-4xl mb-4 fade-in-on-scroll">Mantente actualizado</h2>
+            <p class="text-secondary mb-8 fade-in-on-scroll" style="animation-delay: 80ms">Nuevos modelos, ofertas exclusivas y consejos de mecanografía.</p>
+            
+            <form class="newsletter-form max-w-md mx-auto fade-in-on-scroll" style="animation-delay: 160ms" onsubmit="handleNewsletter(event)">
+                <input type="email" placeholder="tu@correo.com" required>
+                <button type="submit" class="btn">Suscribirse</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-950 border-light border-t">
+        <div class="content-max mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">ANG Shop</h4>
+                    <p class="text-stone-400 text-sm">Teclados mecánicos minimalistas para el trabajo profundo.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wide text-white">Producto</h4>
+                    <ul class="space-y-2 text-sm text-stone-400">
+                        <li><a href="#" class="hover:text-white transition">Teclados</a></li>
+                        <li><a href="#" class="hover:text-white transition">Switches</a></li>
+                        <li><a href="#" class="hover:text-white transition">Keycaps</a></li>
+                        <li><a href="#" class="hover:text-white transition">Accesorios</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wide text-white">Empresa</h4>
+                    <ul class="space-y-2 text-sm text-stone-400">
+                        <li><a href="#" class="hover:text-white transition">Sobre nosotros</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contacto</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wide text-white">Legal</h4>
+                    <ul class="space-y-2 text-sm text-stone-400">
+                        <li><a href="#" class="hover:text-white transition">Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition">Términos</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookies</a></li>
+                        <li><a href="#" class="hover:text-white transition">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-stone-800 border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-stone-400 text-sm">© 2026 ANG Shop. Hecho con precisión.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-stone-400 hover:text-white transition text-sm">Twitter</a>
+                    <a href="#" class="text-stone-400 hover:text-white transition text-sm">Instagram</a>
+                    <a href="#" class="text-stone-400 hover:text-white transition text-sm">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer para animaciones
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-on-scroll, .stagger-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.icon-toggle');
+            
+            content.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+
+        // Newsletter
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            alert(`¡Gracias por suscribirse! Te enviaremos actualizaciones a ${email}`);
+            e.target.reset();
+        }
+
+        // Añadir al carrito (mock)
+        document.querySelectorAll('.btn').forEach(btn => {
+            if (btn.textContent.includes('Añadir al carrito')) {
+                btn.addEventListener('click', function() {
+                    const productName = this.closest('.card').querySelector('h3').textContent;
+                    alert(`${productName} añadido al carrito 🛒`);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
