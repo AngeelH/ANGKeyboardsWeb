@@ -1,3 +1,7 @@
+/* =============================================
+   ANG SHOP – style.css  (Mobile-First)
+   ============================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -19,27 +23,37 @@ h1, h2, h3 {
     color: #111111;
 }
 
-.text-secondary {
-    color: #787774;
+/* ── Utilities ── */
+.text-secondary { color: #787774; }
+
+.border-light { border-color: rgba(0, 0, 0, 0.06); }
+
+.content-max {
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.border-light {
-    border-color: rgba(0, 0, 0, 0.06);
+/* Contenedor más amplio exclusivo para la grid de productos */
+.products-max {
+    max-width: 1280px;
+    margin: 0 auto;
 }
 
-.card {
-    border: 1px solid #EAEAEA;
-    background: #FFFFFF;
-    border-radius: 8px;
-    padding: 24px;
-    transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+/* ── Navbar Liquid Glass ── */
+.nav-glass {
+    background: linear-gradient(
+        135deg,
+        rgba(186, 230, 253, 0.18) 0%,   /* sky-200 muy tenue */
+        rgba(224, 242, 254, 0.12) 50%,   /* sky-100 */
+        rgba(241, 245, 249, 0.10) 100%   /* slate-100 */
+    );
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.55) inset,   /* brillo superior */
+        0 1px 12px rgba(14, 165, 233, 0.06);        /* glow cyan mínimo */
+    border-bottom: 1px solid rgba(144, 160, 168, 0.384) !important;
 }
 
-.card:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    transform: translateY(-1px);
-}
-
+/* ── Buttons ── */
 .btn {
     background: #111111;
     color: #FFFFFF;
@@ -52,6 +66,11 @@ h1, h2, h3 {
     transition: all 200ms ease;
     font-size: 14px;
     letter-spacing: 0.01em;
+    /* makes tap targets comfortable on mobile */
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn:hover {
@@ -65,10 +84,9 @@ h1, h2, h3 {
     border: 1px solid #EAEAEA;
 }
 
-.btn-secondary:hover {
-    background: #EEEEEE;
-}
+.btn-secondary:hover { background: #EEEEEE; }
 
+/* ── Tags ── */
 .tag {
     display: inline-block;
     background: #FDEBEC;
@@ -81,67 +99,122 @@ h1, h2, h3 {
     text-transform: uppercase;
 }
 
-.tag.blue {
-    background: #E1F3FE;
-    color: #1F6C9F;
+.tag.blue  { background: #E1F3FE; color: #1F6C9F; }
+.tag.green { background: #EDF3EC; color: #346538; }
+
+/* ── Cards ── */
+.card {
+    border: 1px solid #EAEAEA;
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tag.green {
-    background: #EDF3EC;
-    color: #346538;
+@media (min-width: 640px) {
+    .card { padding: 24px; }
 }
 
-/* Animaciones sutiles */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@media (min-width: 1024px) {
+    .card { padding: 28px; }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
 }
 
-.fade-in-on-scroll {
-    opacity: 0;
-    transform: translateY(12px);
-}
-
-.fade-in-on-scroll.visible {
-    animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.stagger-item {
-    opacity: 0;
-    transform: translateY(12px);
-}
-
-.stagger-item.visible {
-    animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation: none !important;
-        transition: none !important;
-    }
-}
-
-/* Ambientes de fondo sutil */
-.ambient-bg {
+/* ── Product image wrapper – 16:9 aspect ratio, fluid ── */
+.product-img-wrap {
     position: relative;
-    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
 }
+
+/* ── Product image – cover (usa en casos de foto de ambiente) ── */
+.product-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Product image – centered contain (recomendado para renders de producto) ── */
+.product-img-centered {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    padding: 12px;   /* respiro interior para que el teclado no toque los bordes */
+}
+
+/* ── Navigation ── */
+.mobile-nav-link {
+    display: block;
+    padding: 12px 8px;
+    font-size: 15px;
+    color: #2F3437;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background 150ms ease, color 150ms ease;
+    /* large tap target */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-nav-link:hover {
+    background: #F7F6F3;
+    color: #111111;
+}
+
+/* Mobile menu slide animation */
+.mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu.open {
+    max-height: 320px;
+}
+
+/* Hamburger → X transform */
+#hamburger-btn.open .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+#hamburger-btn.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+#hamburger-btn.open .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ── Hero ── */
+.hero-section {
+    padding: 72px 0;
+    text-align: center;
+    position: relative;
+}
+
+@media (min-width: 640px) {
+    .hero-section { padding: 96px 0; }
+}
+
+@media (min-width: 768px) {
+    .hero-section { padding: 120px 0; }
+}
+
+/* ── Ambient blob ── */
+.ambient-bg { position: relative; overflow: hidden; }
 
 .ambient-blob {
     position: absolute;
@@ -151,46 +224,107 @@ h1, h2, h3 {
 }
 
 .blob-1 {
-    width: 600px;
-    height: 600px;
+    width: 500px;
+    height: 500px;
     background: radial-gradient(circle, #111111, transparent);
     top: -200px;
-    right: -200px;
+    right: -150px;
     animation: drift 20s ease-in-out infinite;
 }
 
 @keyframes drift {
     0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(50px, 50px); }
+    50%       { transform: translate(40px, 40px); }
 }
 
-.grid-2 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+/* ── Scroll animations ── */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-.grid-3 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
+.fade-in-on-scroll,
+.stagger-item {
+    opacity: 0;
+    transform: translateY(12px);
 }
 
-.hero-section {
-    padding: 120px 24px;
-    text-align: center;
-    position: relative;
+.fade-in-on-scroll.visible,
+.stagger-item.visible {
+    animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.content-max {
-    max-width: 900px;
-    margin: 0 auto;
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
 }
 
-section {
-    padding: 80px 24px;
+/* ── FAQ ── */
+.faq-item {
+    border-bottom: 1px solid #EAEAEA;
+    padding: 18px 0;
 }
 
+.faq-item:last-child { border-bottom: none; }
+
+.faq-toggle {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    font-weight: 500;
+    color: #111111;
+    /* comfortable tap height */
+    min-height: 44px;
+}
+
+.faq-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 300ms ease;
+    color: #787774;
+    margin-top: 0;
+}
+
+.faq-content.open {
+    max-height: 500px;
+    margin-top: 12px;
+}
+
+.icon-toggle { transition: transform 200ms ease; }
+.icon-toggle.open { transform: rotate(180deg); }
+
+/* ── Newsletter ── */
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+@media (min-width: 480px) {
+    .newsletter-form { flex-direction: row; }
+}
+
+.newsletter-form input {
+    flex: 1;
+    border: 1px solid #EAEAEA;
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #111111;
+    background: #FFFFFF;
+    min-height: 44px;
+}
+
+.newsletter-form input::placeholder { color: #787774; }
+
+.newsletter-form input:focus {
+    outline: none;
+    border-color: #111111;
+}
+
+/* ── Misc legacy classes (kept for compatibility) ── */
 .keystroke {
     display: inline-block;
     border: 1px solid #EAEAEA;
@@ -240,89 +374,4 @@ section {
     height: 12px;
     border-radius: 50%;
     background: #D4D3CE;
-}
-
-.faq-item {
-    border-bottom: 1px solid #EAEAEA;
-    padding: 20px 0;
-}
-
-.faq-item:last-child {
-    border-bottom: none;
-}
-
-.faq-toggle {
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-    font-weight: 500;
-    color: #111111;
-}
-
-.faq-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 300ms ease;
-    color: #787774;
-    margin-top: 12px;
-}
-
-.faq-content.open {
-    max-height: 500px;
-}
-
-.icon-toggle {
-    transition: transform 200ms ease;
-}
-
-.icon-toggle.open {
-    transform: rotate(180deg);
-}
-
-.newsletter-form {
-    display: flex;
-    gap: 12px;
-}
-
-.newsletter-form input {
-    flex: 1;
-    border: 1px solid #EAEAEA;
-    border-radius: 4px;
-    padding: 12px 16px;
-    font-family: inherit;
-    color: #111111;
-    background: #FFFFFF;
-}
-
-.newsletter-form input::placeholder {
-    color: #787774;
-}
-
-.newsletter-form input:focus {
-    outline: none;
-    border-color: #111111;
-}
-
-@media (max-width: 640px) {
-    .newsletter-form {
-        flex-direction: column;
-    }
-
-    .hero-section {
-        padding: 80px 24px;
-    }
-
-    section {
-        padding: 60px 24px;
-    }
-
-    h1 {
-        font-size: 32px;
-    }
-
-    h2 {
-        font-size: 28px;
-    }
 }
