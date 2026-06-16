@@ -7,336 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/phosphor-icons@1.4.2/src/bold/style.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #FFFFFF;
-            color: #2F3437;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Instrument Serif', 'Playfair Display', serif;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            color: #111111;
-        }
-
-        .text-secondary {
-            color: #787774;
-        }
-
-        .border-light {
-            border-color: rgba(0, 0, 0, 0.06);
-        }
-
-        .card {
-            border: 1px solid #EAEAEA;
-            background: #FFFFFF;
-            border-radius: 8px;
-            padding: 24px;
-            transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .card:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            transform: translateY(-1px);
-        }
-
-        .btn {
-            background: #111111;
-            color: #FFFFFF;
-            padding: 12px 24px;
-            border-radius: 4px;
-            border: none;
-            font-family: inherit;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 200ms ease;
-            font-size: 14px;
-            letter-spacing: 0.01em;
-        }
-
-        .btn:hover {
-            background: #333333;
-            transform: scale(0.98);
-        }
-
-        .btn-secondary {
-            background: #F7F6F3;
-            color: #111111;
-            border: 1px solid #EAEAEA;
-        }
-
-        .btn-secondary:hover {
-            background: #EEEEEE;
-        }
-
-        .tag {
-            display: inline-block;
-            background: #FDEBEC;
-            color: #9F2F2D;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .tag.blue {
-            background: #E1F3FE;
-            color: #1F6C9F;
-        }
-
-        .tag.green {
-            background: #EDF3EC;
-            color: #346538;
-        }
-
-        /* Animaciones sutiles */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .fade-in-on-scroll {
-            opacity: 0;
-            transform: translateY(12px);
-        }
-
-        .fade-in-on-scroll.visible {
-            animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .stagger-item {
-            opacity: 0;
-            transform: translateY(12px);
-        }
-
-        .stagger-item.visible {
-            animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
-        }
-
-        /* Ambientes de fondo sutil */
-        .ambient-bg {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ambient-blob {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.02;
-            border-radius: 50%;
-        }
-
-        .blob-1 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, #111111, transparent);
-            top: -200px;
-            right: -200px;
-            animation: drift 20s ease-in-out infinite;
-        }
-
-        @keyframes drift {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(50px, 50px); }
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .hero-section {
-            padding: 120px 24px;
-            text-align: center;
-            position: relative;
-        }
-
-        .content-max {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        section {
-            padding: 80px 24px;
-        }
-
-        .keystroke {
-            display: inline-block;
-            border: 1px solid #EAEAEA;
-            border-radius: 4px;
-            background: #F7F6F3;
-            padding: 6px 10px;
-            font-family: 'SF Mono', 'Monaco', monospace;
-            font-size: 12px;
-            margin: 0 2px;
-            color: #111111;
-        }
-
-        .kbd {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 32px;
-            height: 32px;
-            border: 1px solid #EAEAEA;
-            border-radius: 4px;
-            background: #F7F6F3;
-            font-family: 'SF Mono', 'Monaco', monospace;
-            font-size: 12px;
-            font-weight: 600;
-            color: #111111;
-        }
-
-        .mac-window {
-            border: 1px solid #EAEAEA;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #FFFFFF;
-        }
-
-        .mac-window-header {
-            height: 32px;
-            background: #F7F6F3;
-            border-bottom: 1px solid #EAEAEA;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            gap: 8px;
-        }
-
-        .mac-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #D4D3CE;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid #EAEAEA;
-            padding: 20px 0;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-toggle {
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-            font-weight: 500;
-            color: #111111;
-        }
-
-        .faq-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 300ms ease;
-            color: #787774;
-            margin-top: 12px;
-        }
-
-        .faq-content.open {
-            max-height: 500px;
-        }
-
-        .icon-toggle {
-            transition: transform 200ms ease;
-        }
-
-        .icon-toggle.open {
-            transform: rotate(180deg);
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 12px;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            border: 1px solid #EAEAEA;
-            border-radius: 4px;
-            padding: 12px 16px;
-            font-family: inherit;
-            color: #111111;
-            background: #FFFFFF;
-        }
-
-        .newsletter-form input::placeholder {
-            color: #787774;
-        }
-
-        .newsletter-form input:focus {
-            outline: none;
-            border-color: #111111;
-        }
-
-        @media (max-width: 640px) {
-            .newsletter-form {
-                flex-direction: column;
-            }
-            
-            .hero-section {
-                padding: 80px 24px;
-            }
-
-            section {
-                padding: 60px 24px;
-            }
-
-            h1 {
-                font-size: 32px;
-            }
-
-            h2 {
-                font-size: 28px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -415,7 +86,7 @@
     <section id="productos" class="bg-white border-light border-t">
         <div class="content-max mx-auto">
             <h2 class="text-5xl mb-12 fade-in-on-scroll">Nuestros teclados</h2>
-            
+
             <div class="grid-3">
                 <div class="card stagger-item" style="animation-delay: 0ms">
                     <div class="h-48 bg-gradient-to-br from-stone-100 to-stone-50 rounded mb-6 flex items-center justify-center overflow-hidden">
@@ -476,7 +147,7 @@
     <section id="especificaciones" class="bg-stone-50">
         <div class="content-max mx-auto">
             <h2 class="text-5xl mb-12 fade-in-on-scroll">Diseñado con precisión</h2>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div class="fade-in-on-scroll">
                     <h3 class="text-2xl font-semibold mb-4">Minimalismo radical</h3>
@@ -531,7 +202,7 @@
     <section class="bg-white">
         <div class="content-max mx-auto">
             <h2 class="text-5xl mb-12 fade-in-on-scroll">Especificaciones técnicas</h2>
-            
+
             <div class="card fade-in-on-scroll">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
@@ -570,7 +241,7 @@
     <section class="bg-stone-50">
         <div class="content-max mx-auto">
             <h2 class="text-5xl mb-12 fade-in-on-scroll">Lo que dicen nuestros clientes</h2>
-            
+
             <div class="grid-2">
                 <div class="card stagger-item" style="animation-delay: 0ms">
                     <div class="flex justify-between items-start mb-4">
@@ -601,7 +272,7 @@
     <section id="faq" class="bg-white">
         <div class="content-max mx-auto">
             <h2 class="text-5xl mb-12 fade-in-on-scroll">Preguntas frecuentes</h2>
-            
+
             <div class="fade-in-on-scroll">
                 <div class="faq-item">
                     <div class="faq-toggle" onclick="toggleFaq(this)">
@@ -651,7 +322,7 @@
         <div class="content-max mx-auto text-center">
             <h2 class="text-4xl mb-4 fade-in-on-scroll">Mantente actualizado</h2>
             <p class="text-secondary mb-8 fade-in-on-scroll" style="animation-delay: 80ms">Nuevos modelos, ofertas exclusivas y consejos de mecanografía.</p>
-            
+
             <form class="newsletter-form max-w-md mx-auto fade-in-on-scroll" style="animation-delay: 160ms" onsubmit="handleNewsletter(event)">
                 <input type="email" placeholder="tu@correo.com" required>
                 <button type="submit" class="btn">Suscribirse</button>
@@ -707,52 +378,6 @@
         </div>
     </footer>
 
-    <script>
-        // Intersection Observer para animaciones
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in-on-scroll, .stagger-item').forEach(el => {
-            observer.observe(el);
-        });
-
-        // FAQ Toggle
-        function toggleFaq(element) {
-            const content = element.nextElementSibling;
-            const icon = element.querySelector('.icon-toggle');
-            
-            content.classList.toggle('open');
-            icon.classList.toggle('open');
-        }
-
-        // Newsletter
-        function handleNewsletter(e) {
-            e.preventDefault();
-            const email = e.target.querySelector('input').value;
-            alert(`¡Gracias por suscribirse! Te enviaremos actualizaciones a ${email}`);
-            e.target.reset();
-        }
-
-        // Añadir al carrito (mock)
-        document.querySelectorAll('.btn').forEach(btn => {
-            if (btn.textContent.includes('Añadir al carrito')) {
-                btn.addEventListener('click', function() {
-                    const productName = this.closest('.card').querySelector('h3').textContent;
-                    alert(`${productName} añadido al carrito 🛒`);
-                });
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
