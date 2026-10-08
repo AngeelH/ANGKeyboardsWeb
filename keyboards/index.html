@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/phosphor-icons@1.4.2/src/bold/style.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="preload" as="image" href="imagenes/Producto001.png">
+    <link rel="preload" as="image" href="imagenes/Producto002.png">
+    <link rel="preload" as="image" href="imagenes/Producto003.png">
+    <link rel="preload" as="image" href="imagenes/Producto004.png">
+    <link rel="preload" as="image" href="imagenes/Producto005.png">
 </head>
 <body>
 
@@ -59,6 +64,38 @@
     <!-- ===== HERO ===== -->
     <section class="hero-section ambient-bg">
         <div class="ambient-blob blob-1"></div>
+
+        <!-- ===== CARRUSEL 3D ===== -->
+        <div class="carousel3d relative z-10" id="carousel3d" aria-roledescription="carrusel" aria-label="Colección de teclados">
+            <div class="carousel3d-stage" id="carousel3d-stage">
+                <div class="carousel3d-card" data-name="ANG Aurora" data-desc="Formato 75% con perilla y pantalla integrada. Keycaps blancos y lavanda con retroiluminación RGB.">
+                    <img src="imagenes/Producto001.png" alt="ANG Aurora – teclado 75% blanco y lavanda" draggable="false" loading="eager" fetchpriority="high" decoding="async" />
+                </div>
+                <div class="carousel3d-card" data-name="ANG Crimson" data-desc="Compacto 65% con keycaps de grabado topográfico negro y rojo. Carácter puro en poco espacio.">
+                    <img src="imagenes/Producto002.png" alt="ANG Crimson – teclado 65% negro y rojo" draggable="false" loading="eager" decoding="async" />
+                </div>
+                <div class="carousel3d-card" data-name="ANG Blossom" data-desc="Tenkeyless con degradado rosa y pantalla lateral. Suave al tacto, silencioso al teclear.">
+                    <img src="imagenes/Producto003.png" alt="ANG Blossom – teclado TKL rosa" draggable="false" loading="eager" decoding="async" />
+                </div>
+                <div class="carousel3d-card" data-name="ANG Hornet" data-desc="Layout 75% en español con acentos amarillos y perilla de aluminio. Hecho para rendir.">
+                    <img src="imagenes/Producto004.png" alt="ANG Hornet – teclado 75% negro y amarillo" draggable="false" loading="eager" decoding="async" />
+                </div>
+                <div class="carousel3d-card" data-name="ANG Glacier" data-desc="Formato 96% con numpad completo. Tonos hielo y blanco bajo una luz RGB envolvente.">
+                    <img src="imagenes/Producto005.png" alt="ANG Glacier – teclado 96% celeste y blanco" draggable="false" loading="eager" decoding="async" />
+                </div>
+            </div>
+
+            <button class="carousel3d-arrow prev" id="carousel3d-prev" aria-label="Teclado anterior">‹</button>
+            <button class="carousel3d-arrow next" id="carousel3d-next" aria-label="Teclado siguiente">›</button>
+
+            <div class="carousel3d-caption px-4" aria-live="polite">
+                <h2 class="carousel3d-name"><span id="carousel3d-name"></span></h2>
+                <p class="carousel3d-desc text-secondary"><span id="carousel3d-desc"></span><span class="type-caret" aria-hidden="true"></span></p>
+            </div>
+
+            <div class="carousel3d-dots" id="carousel3d-dots"></div>
+        </div>
+
         <div class="content-max relative z-10 px-4 sm:px-6">
             <div class="mb-5 fade-in-on-scroll">
                 <span class="tag">Ahora disponible</span>
@@ -69,250 +106,375 @@
             <p class="text-base sm:text-lg md:text-xl text-secondary mt-4 sm:mt-6 max-w-xl mx-auto fade-in-on-scroll" style="animation-delay: 160ms">
                 Teclados mecánicos minimalistas diseñados para el trabajo profundo. Sin distracciones. Sin ruido. Solo diseño.
             </p>
-            <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 justify-center fade-in-on-scroll" style="animation-delay: 240ms">
-                <button class="btn w-full sm:w-auto">Explorar colección</button>
-                <button class="btn btn-secondary w-full sm:w-auto">Ver especificaciones</button>
-            </div>
         </div>
-    </section>
 
+        <!-- Arquitectura: imagen + texto -->
+        <div class="precision-max relative z-10 mx-auto px-4 sm:px-6 mt-12 sm:mt-16">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center text-left">
 
-    <!-- ===== ARCHITECTURE ===== -->
-    <section class="bg-stone-50 border-light border-t py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div class="content-max mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-
-                <!-- Image -->
-                <div class="lg:col-span-7 fade-in-on-scroll">
-                    <div class="rounded-lg overflow-hidden bg-gradient-to-br from-stone-200 to-stone-100">
+                <!-- Imagen glass -->
+                <div class="lg:col-span-7 fade-in-on-scroll" style="animation-delay: 240ms">
+                    <div class="glass-image-card">
                         <img
                             src="imagenes/arqui1.png"
                             alt="Arquitectura interna del teclado mecánico"
-                            class="w-full h-auto object-cover rounded-lg"
                             loading="lazy"
                         />
                     </div>
                 </div>
 
-                <!-- Text -->
-                <div class="lg:col-span-5 fade-in-on-scroll" style="animation-delay: 120ms">
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl mb-4 sm:mb-6">Ingeniería de Precisión</h2>
+                <!-- Texto -->
+                <div class="lg:col-span-5 fade-in-on-scroll" style="animation-delay: 320ms">
                     <p class="text-secondary mb-4 leading-relaxed text-sm sm:text-base">
                         Cada teclado ANG Shop es el resultado de años de investigación en diseño mecánico. Nuestros switches están calibrados al milímetro, cada resorte tensionado con precisión óptica, cada contacto de latón chapado en oro para durabilidad extrema.
                     </p>
                     <p class="text-secondary mb-6 leading-relaxed text-sm sm:text-base">
                         El proceso de ensamble es completamente manual. Nuestros técnicos prueban cada unidad durante 48 horas antes del envío, validando latencia, respuesta y sonido. Cero compromiso. Cero defectos aceptados.
                     </p>
-                    <ul class="space-y-3">
-                        <li class="flex gap-3 items-start">
-                            <span class="text-sm font-mono text-secondary mt-0.5 flex-shrink-0">→</span>
-                            <span class="text-sm">Switches Cherry MX grado industrial</span>
-                        </li>
-                        <li class="flex gap-3 items-start">
-                            <span class="text-sm font-mono text-secondary mt-0.5 flex-shrink-0">→</span>
-                            <span class="text-sm">Estabilizadores Durock de precisión láser</span>
-                        </li>
-                        <li class="flex gap-3 items-start">
-                            <span class="text-sm font-mono text-secondary mt-0.5 flex-shrink-0">→</span>
-                            <span class="text-sm">Contactos de latón chapado en oro 24k</span>
-                        </li>
-                        <li class="flex gap-3 items-start">
-                            <span class="text-sm font-mono text-secondary mt-0.5 flex-shrink-0">→</span>
-                            <span class="text-sm">PCB dampening reforzado con espuma de aviación</span>
-                        </li>
+                    <ul class="spec-list">
+                        <li><span class="spec-arrow">→</span><span>Switches Cherry MX grado industrial</span></li>
+                        <li><span class="spec-arrow">→</span><span>Estabilizadores Durock de precisión láser</span></li>
+                        <li><span class="spec-arrow">→</span><span>Contactos de latón chapado en oro 24k</span></li>
+                        <li><span class="spec-arrow">→</span><span>PCB dampening reforzado con espuma de aviación</span></li>
                     </ul>
+                    <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                        <button class="btn w-full sm:w-auto">Explorar colección</button>
+                        <button class="btn btn-secondary w-full sm:w-auto">Ver especificaciones</button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-
     <!-- ===== PRODUCTS ===== -->
-    <section id="productos" class="bg-white border-light border-t py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+    <section id="productos" class="products-section border-light border-t py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div class="products-max mx-auto">
             <h2 class="text-2xl sm:text-4xl md:text-5xl mb-8 sm:mb-12 fade-in-on-scroll">Productos Destacados</h2>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
-
-                <div class="card stagger-item" style="animation-delay: 0ms">
-                    <div class="product-img-wrap rounded mb-5 overflow-hidden bg-gradient-to-br from-stone-100 to-stone-50">
-                        <img src="imagenes/animado1.png" alt="ANG Shop Silent - Teclado mecánico silencioso" class="product-img-centered" loading="lazy" />
+            <div class="products-grid">
+                <article class="card product-card stagger-item" style="animation-delay: 0ms" data-product="p1" tabindex="0" role="button" aria-label="Ver detalles de ANG Aurora">
+                    <div class="product-img-wrap mb-5">
+                        <img src="imagenes/Producto001.png" alt="ANG Aurora – teclado mecánico" class="product-img-centered" loading="eager" decoding="async" />
+                        <span class="product-quickview">Vista rápida</span>
                     </div>
                     <span class="tag">Switch silencioso</span>
-                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Silent</h3>
-                    <p class="text-secondary text-sm mb-5">Switches mecánicos de baja fricción. 60g actuación lineal. Ideal para espacios compartidos.</p>
-                    <div class="mb-5">
-                        <span class="text-2xl font-bold">$189</span>
+                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Aurora</h3>
+                    <p class="text-secondary text-sm mb-5">75% con perilla y pantalla integrada. Switches silenciosos de 45g, ideal para espacios compartidos.</p>
+                    <div class="mb-5 mt-auto">
+                        <span class="text-2xl font-bold product-price">S/ 699</span>
                     </div>
                     <button class="btn w-full">Añadir al carrito</button>
-                </div>
+                </article>
 
-                <div class="card stagger-item" style="animation-delay: 80ms">
-                    <div class="product-img-wrap rounded mb-5 overflow-hidden bg-gradient-to-br from-stone-100 to-stone-50">
-                        <img src="imagenes/animado1.png" alt="ANG Shop Compact - Teclado mecánico compacto" class="product-img-centered" loading="lazy" />
+                <article class="card product-card stagger-item" style="animation-delay: 80ms" data-product="p2" tabindex="0" role="button" aria-label="Ver detalles de ANG Crimson">
+                    <div class="product-img-wrap mb-5">
+                        <img src="imagenes/Producto002.png" alt="ANG Crimson – teclado mecánico" class="product-img-centered" loading="eager" decoding="async" />
+                        <span class="product-quickview">Vista rápida</span>
                     </div>
                     <span class="tag blue">Switch táctil</span>
-                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Compact</h3>
-                    <p class="text-secondary text-sm mb-5">60% compacto. Switches gateron clicky. Perfecto para viajeros y minimalistas.</p>
-                    <div class="mb-5">
-                        <span class="text-2xl font-bold">$149</span>
+                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Crimson</h3>
+                    <p class="text-secondary text-sm mb-5">65% compacto con keycaps topográficos. Switches táctiles con respuesta marcada.</p>
+                    <div class="mb-5 mt-auto">
+                        <span class="text-2xl font-bold product-price">S/ 549</span>
                     </div>
                     <button class="btn w-full">Añadir al carrito</button>
-                </div>
+                </article>
 
-                <div class="card stagger-item" style="animation-delay: 160ms">
-                    <div class="product-img-wrap rounded mb-5 overflow-hidden bg-gradient-to-br from-stone-100 to-stone-50">
-                        <img src="imagenes/animado1.png" alt="ANG Shop Pro - Teclado mecánico profesional" class="product-img-centered" loading="lazy" />
+                <article class="card product-card stagger-item" style="animation-delay: 160ms" data-product="p3" tabindex="0" role="button" aria-label="Ver detalles de ANG Blossom">
+                    <div class="product-img-wrap mb-5">
+                        <img src="imagenes/Producto003.png" alt="ANG Blossom – teclado mecánico" class="product-img-centered" loading="eager" decoding="async" />
+                        <span class="product-quickview">Vista rápida</span>
                     </div>
                     <span class="tag green">Switch lineal</span>
-                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Pro</h3>
-                    <p class="text-secondary text-sm mb-5">Layout full-size con switches lineales de precisión. La opción para profesionales.</p>
-                    <div class="mb-5">
-                        <span class="text-2xl font-bold">$249</span>
+                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Blossom</h3>
+                    <p class="text-secondary text-sm mb-5">Tenkeyless con degradado rosa. Switches lineales suaves y pantalla lateral.</p>
+                    <div class="mb-5 mt-auto">
+                        <span class="text-2xl font-bold product-price">S/ 599</span>
                     </div>
                     <button class="btn w-full">Añadir al carrito</button>
-                </div>
+                </article>
 
-                <div class="card stagger-item" style="animation-delay: 240ms">
-                    <div class="product-img-wrap rounded mb-5 overflow-hidden bg-gradient-to-br from-stone-100 to-stone-50">
-                        <img src="imagenes/animado1.png" alt="ANG Shop Stealth - Teclado mecánico edición especial" class="product-img-centered" loading="lazy" />
+                <article class="card product-card stagger-item" style="animation-delay: 240ms" data-product="p4" tabindex="0" role="button" aria-label="Ver detalles de ANG Hornet">
+                    <div class="product-img-wrap mb-5">
+                        <img src="imagenes/Producto004.png" alt="ANG Hornet – teclado mecánico" class="product-img-centered" loading="eager" decoding="async" />
+                        <span class="product-quickview">Vista rápida</span>
                     </div>
                     <span class="tag">Edición especial</span>
-                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Stealth</h3>
-                    <p class="text-secondary text-sm mb-5">Diseño ultra-delgado con keycaps optimizados para máxima velocidad y respuesta táctil silenciosa.</p>
-                    <div class="mb-5">
-                        <span class="text-2xl font-bold">$219</span>
+                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Hornet</h3>
+                    <p class="text-secondary text-sm mb-5">75% en español con acentos amarillos y perilla de aluminio. Tirada limitada.</p>
+                    <div class="mb-5 mt-auto">
+                        <span class="text-2xl font-bold product-price">S/ 819</span>
                     </div>
                     <button class="btn w-full">Añadir al carrito</button>
-                </div>
+                </article>
 
+                <article class="card product-card stagger-item" style="animation-delay: 320ms" data-product="p5" tabindex="0" role="button" aria-label="Ver detalles de ANG Glacier">
+                    <div class="product-img-wrap mb-5">
+                        <img src="imagenes/Producto005.png" alt="ANG Glacier – teclado mecánico" class="product-img-centered" loading="eager" decoding="async" />
+                        <span class="product-quickview">Vista rápida</span>
+                    </div>
+                    <span class="tag green">Switch lineal</span>
+                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Glacier</h3>
+                    <p class="text-secondary text-sm mb-5">96% con numpad completo. Switches lineales de precisión para profesionales.</p>
+                    <div class="mb-5 mt-auto">
+                        <span class="text-2xl font-bold product-price">S/ 929</span>
+                    </div>
+                    <button class="btn w-full">Añadir al carrito</button>
+                </article>
             </div>
         </div><!-- /products-max -->
     </section>
 
 
-    <!-- ===== FEATURES ===== -->
-    <section id="especificaciones" class="bg-stone-50 py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div class="content-max mx-auto">
-            <h2 class="text-2xl sm:text-4xl md:text-5xl mb-8 sm:mb-12 fade-in-on-scroll">Diseñado con precisión</h2>
+    <!-- ===== LA EXPERIENCIA ANG (BENTO) ===== -->
+    <section id="especificaciones" class="bento-section py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+        <div class="bento-max mx-auto">
+            <div class="mb-8 sm:mb-12 fade-in-on-scroll">
+                <span class="bento-eyebrow">Diseño · Ingeniería · Sonido</span>
+                <h2 class="text-2xl sm:text-4xl md:text-5xl mt-3">La Experiencia ANG</h2>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
-                <div class="fade-in-on-scroll">
-                    <h3 class="text-xl sm:text-2xl font-semibold mb-3">Minimalismo radical</h3>
-                    <p class="text-secondary mb-4 text-sm sm:text-base">Cada componente de ANG Shop tiene un propósito. Sin decoración innecesaria, solo líneas limpias y geometría perfecta. Inspirado en el diseño escandinavo y la filosofía Apple.</p>
-                    <ul class="space-y-3">
-                        <li class="flex gap-3 items-center text-sm sm:text-base">
-                            <span class="text-base flex-shrink-0">✓</span>
-                            <span>Carcasa de aluminio anodizado</span>
-                        </li>
-                        <li class="flex gap-3 items-center text-sm sm:text-base">
-                            <span class="text-base flex-shrink-0">✓</span>
-                            <span>Switches mecánicos cherry compatibles</span>
-                        </li>
-                        <li class="flex gap-3 items-center text-sm sm:text-base">
-                            <span class="text-base flex-shrink-0">✓</span>
-                            <span>Conectividad USB-C</span>
-                        </li>
-                        <li class="flex gap-3 items-center text-sm sm:text-base">
-                            <span class="text-base flex-shrink-0">✓</span>
-                            <span>Garantía de por vida</span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="bento-grid">
 
-                <div class="fade-in-on-scroll" style="animation-delay: 120ms">
-                    <h3 class="text-xl sm:text-2xl font-semibold mb-3">Rendimiento sin compromiso</h3>
-                    <p class="text-secondary mb-4 text-sm sm:text-base">Respuesta instantánea, actitud duradera. Desarrollado por ingenieros y testeado por typists profesionales en todo el mundo.</p>
-                    <ul class="space-y-3">
-                        <li class="flex gap-3 items-center text-sm sm:text-base">
-                            <span class="text-base flex-shrink-0">✓</span>
-                            <span>Actitud de 60 millones de pulsaciones</span>
-                        </li>
-                        <li class="flex gap-3 items-center text-sm sm:text-base">
-                            <span class="text-base flex-shrink-0">✓</span>
-                            <span>Latencia &lt; 1ms</span>
-                        </li>
-                        <li class="flex gap-3 items-center text-sm sm:text-base">
-                            <span class="text-base flex-shrink-0">✓</span>
-                            <span>Conexión inalámbrica opcional</span>
-                        </li>
-                        <li class="flex gap-3 items-center text-sm sm:text-base">
-                            <span class="text-base flex-shrink-0">✓</span>
-                            <span>Batería de 120 horas</span>
-                        </li>
-                    </ul>
-                </div>
+                <!-- 1 · Acústica (ancha) -->
+                <article class="bento-card bento-wide stagger-item" style="animation-delay: 0ms">
+                    <svg class="bento-waves" viewBox="0 0 420 240" preserveAspectRatio="none" aria-hidden="true">
+                            <polyline points="0,120.0 6,120.2 12,120.4 18,120.7 24,121.0 30,121.2 36,121.5 42,121.7 48,121.9 54,121.9 60,121.9 66,121.8 72,121.5 78,121.1 84,120.6 90,120.0 96,119.3 102,118.5 108,117.7 114,117.0 120,116.4 126,115.8 132,115.4 138,115.3 144,115.3 150,115.6 156,116.1 162,116.9 168,117.8 174,118.9 180,120.1 186,121.3 192,122.5 198,123.6 204,124.5 210,125.3 216,125.7 222,125.9 228,125.9 234,125.5 240,124.9 246,124.1 252,123.2 258,122.1 264,121.0 270,119.9 276,118.8 282,117.9 288,117.2 294,116.7 300,116.3 306,116.2 312,116.2 318,116.5 324,116.8 330,117.3 336,117.9 342,118.4 348,119.0 354,119.6 360,120.1 366,120.5 372,120.8 378,121.1 384,121.2 390,121.3 396,121.2 402,121.2 408,121.0 414,120.9 420,120.7" />
+                            <polyline points="0,121.0 6,121.4 12,121.8 18,122.1 24,122.4 30,122.5 36,122.5 42,122.3 48,121.8 54,121.2 60,120.4 66,119.4 72,118.3 78,117.1 84,116.0 90,114.9 96,114.0 102,113.5 108,113.2 114,113.4 120,114.0 126,115.0 132,116.5 138,118.3 144,120.3 150,122.5 156,124.6 162,126.7 168,128.4 174,129.7 180,130.5 186,130.7 192,130.2 198,129.2 204,127.6 210,125.6 216,123.3 222,120.7 228,118.2 234,115.8 240,113.7 246,112.1 252,110.9 258,110.3 264,110.3 270,110.9 276,111.9 282,113.3 288,115.0 294,116.9 300,118.7 306,120.5 312,122.1 318,123.3 324,124.3 330,124.9 336,125.1 342,125.0 348,124.7 354,124.1 360,123.3 366,122.5 372,121.6 378,120.8 384,120.1 390,119.5 396,119.0 402,118.7 408,118.5 414,118.4 420,118.5" />
+                            <polyline points="0,122.2 6,122.5 12,122.6 18,122.6 24,122.2 30,121.7 36,120.8 42,119.7 48,118.4 54,117.0 60,115.6 66,114.3 72,113.3 78,112.6 84,112.5 90,112.8 96,113.8 102,115.5 108,117.6 114,120.2 120,123.1 126,126.0 132,128.7 138,131.0 144,132.7 150,133.6 156,133.6 162,132.6 168,130.6 174,127.8 180,124.3 186,120.4 192,116.4 198,112.5 204,109.1 210,106.5 216,104.8 222,104.1 228,104.6 234,106.1 240,108.5 246,111.6 252,115.2 258,119.0 264,122.6 270,125.9 276,128.5 282,130.4 288,131.5 294,131.6 300,131.0 306,129.7 312,127.8 318,125.6 324,123.3 330,121.0 336,118.9 342,117.1 348,115.8 354,115.0 360,114.6 366,114.6 372,115.1 378,115.8 384,116.6 390,117.6 396,118.6 402,119.5 408,120.3 414,120.9 420,121.3" />
+                            <polyline points="0,122.6 6,122.3 12,121.7 18,120.8 24,119.6 30,118.2 36,116.7 42,115.2 48,113.9 54,112.9 60,112.4 66,112.6 72,113.5 78,115.2 84,117.6 90,120.5 96,123.8 102,127.2 108,130.3 114,132.9 120,134.6 126,135.1 132,134.4 138,132.4 144,129.1 150,124.9 156,119.9 162,114.6 168,109.5 174,105.1 180,101.7 186,99.8 192,99.5 198,100.9 204,103.9 210,108.2 216,113.5 222,119.3 228,125.1 234,130.4 240,134.7 246,137.6 252,139.1 258,138.9 264,137.2 270,134.2 276,130.3 282,125.8 288,121.2 294,116.8 300,113.1 306,110.3 312,108.5 318,107.8 324,108.2 330,109.5 336,111.5 342,113.9 348,116.5 354,119.1 360,121.3 366,123.1 372,124.4 378,125.1 384,125.3 390,125.0 396,124.3 402,123.4 408,122.4 414,121.4 420,120.4" />
+                            <polyline points="0,121.2 6,120.1 12,118.8 18,117.2 24,115.7 30,114.3 36,113.2 42,112.8 48,113.0 54,114.1 60,116.1 66,118.8 72,122.1 78,125.7 84,129.2 90,132.3 96,134.4 102,135.3 108,134.7 114,132.5 120,128.8 126,123.8 132,117.9 138,111.7 144,105.9 150,101.1 156,97.8 162,96.6 168,97.6 174,100.9 180,106.2 186,113.0 192,120.7 198,128.4 204,135.5 210,141.1 216,144.6 222,145.8 228,144.6 234,141.0 240,135.5 246,128.7 252,121.3 258,114.2 264,107.9 270,103.2 276,100.3 282,99.4 288,100.6 294,103.5 300,107.6 306,112.6 312,117.8 318,122.6 324,126.7 330,129.6 336,131.4 342,131.8 348,131.1 354,129.4 360,127.1 366,124.4 372,121.8 378,119.4 384,117.4 390,116.0 396,115.3 402,115.1 408,115.5 414,116.2 420,117.1" />
+                            <polyline points="0,118.5 6,116.9 12,115.4 18,114.1 24,113.4 30,113.3 36,114.2 42,116.0 48,118.6 54,122.0 60,125.6 66,129.2 72,132.3 78,134.3 84,134.8 90,133.5 96,130.5 102,125.7 108,119.7 114,113.0 120,106.5 126,100.9 132,97.0 138,95.5 144,96.7 150,100.8 156,107.3 162,115.6 168,125.0 174,134.1 180,142.1 186,147.7 192,150.5 198,149.8 204,145.8 210,139.0 216,130.0 222,119.9 228,110.0 234,101.4 240,95.1 246,91.6 252,91.4 258,94.4 264,99.9 270,107.3 276,115.7 282,123.9 288,131.1 294,136.6 300,139.7 306,140.5 312,139.0 318,135.5 324,130.8 330,125.5 336,120.2 342,115.5 348,112.0 354,109.8 360,109.0 366,109.5 372,111.1 378,113.4 384,116.0 390,118.7 396,121.0 402,122.8 408,123.9 414,124.4 420,124.3" />
+                            <polyline points="0,115.6 6,114.4 12,113.8 18,114.0 24,115.2 30,117.4 36,120.4 42,123.9 48,127.6 54,130.9 60,133.2 66,133.9 72,132.8 78,129.7 84,124.7 90,118.4 96,111.4 102,104.7 108,99.3 114,96.2 120,95.9 126,98.9 132,105.0 138,113.6 144,123.8 150,134.3 156,143.5 162,150.2 168,153.3 174,152.2 180,146.8 186,137.9 192,126.4 198,113.8 204,101.9 210,92.2 216,86.1 222,84.2 228,87.0 234,93.8 240,103.7 246,115.4 252,127.2 258,137.6 264,145.3 270,149.4 276,149.6 282,146.1 288,139.7 294,131.3 300,122.3 306,113.8 312,106.9 318,102.3 324,100.4 330,101.1 336,104.1 342,108.6 348,114.0 354,119.3 360,124.0 366,127.5 372,129.5 378,130.1 384,129.3 390,127.5 396,125.0 402,122.4 408,120.0 414,118.0 420,116.7" />
+                            <polyline points="0,114.3 6,114.6 12,115.8 18,118.0 24,121.1 30,124.7 36,128.3 42,131.1 48,132.7 54,132.5 60,130.2 66,125.9 72,119.8 78,112.8 84,105.9 90,100.3 96,97.0 102,96.9 108,100.4 114,107.3 120,117.0 126,128.0 132,138.9 138,147.9 144,153.3 150,154.1 156,149.9 162,141.0 168,128.4 174,114.1 180,100.0 186,88.4 192,81.2 198,79.4 204,83.6 210,93.0 216,106.3 222,121.5 228,136.3 234,148.5 240,156.3 246,158.7 252,155.5 258,147.5 264,136.0 270,122.8 276,110.1 282,99.7 288,92.8 294,90.3 300,92.2 306,97.8 312,105.9 318,115.2 324,124.1 330,131.4 336,136.3 342,138.3 348,137.5 354,134.3 360,129.7 366,124.3 372,119.2 378,115.0 384,112.2 390,111.0 396,111.2 402,112.6 408,114.8 414,117.3 420,119.7" />
+                            <polyline points="0,115.9 6,118.0 12,121.0 18,124.5 24,127.9 30,130.6 36,131.8 42,131.1 48,128.2 54,123.2 60,116.7 66,109.7 72,103.4 78,99.1 84,97.9 90,100.5 96,106.9 102,116.4 108,127.7 114,139.0 120,148.2 126,153.5 132,153.5 138,147.7 144,136.8 150,122.3 156,106.4 162,91.8 168,81.2 174,76.6 180,79.0 186,88.2 192,102.9 198,120.8 204,138.7 210,153.6 216,163.2 222,165.6 228,160.7 234,149.3 240,133.5 246,116.1 252,99.9 258,87.6 264,81.1 270,81.1 276,87.3 282,98.2 288,111.8 294,125.5 300,137.2 306,145.2 312,148.4 318,146.8 324,141.2 330,133.0 336,123.7 342,115.0 348,108.2 354,104.2 360,103.2 366,105.0 372,108.8 378,113.8 384,118.9 390,123.4 396,126.5 402,128.0 408,128.0 414,126.8 420,124.7" />
+                    </svg>
+                    <div class="bento-content">
+                        <span class="bento-index">01</span>
+                        <h3 class="bento-title">Acústica Perfecta</h3>
+                        <p class="bento-text">Capas internas de amortiguación de sonido de grado espacial para un tecleado profundo, limpio y libre de eco.</p>
+                        <div class="bento-meter" aria-hidden="true">
+                            <span style="--h: 30%"></span><span style="--h: 55%"></span><span style="--h: 80%"></span><span style="--h: 45%"></span><span style="--h: 65%"></span><span style="--h: 35%"></span><span style="--h: 20%"></span><span style="--h: 12%"></span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 2 · Chasis CNC -->
+                <article class="bento-card stagger-item" style="animation-delay: 80ms">
+                    <svg class="bento-keycap" viewBox="0 0 120 110" aria-hidden="true">
+                        <!-- cara superior -->
+                        <path d="M28 44 L60 28 L92 44 L60 60 Z" />
+                        <ellipse cx="60" cy="44" rx="18" ry="8.5" class="faint" />
+                        <!-- aristas laterales -->
+                        <path d="M28 44 L14 66 M92 44 L106 66 M60 60 L60 89" />
+                        <!-- base -->
+                        <path d="M14 66 L60 89 L106 66" />
+                        <!-- vástago en cruz -->
+                        <path d="M60 92 L60 106 M54 99 L66 99" class="faint" />
+                    </svg>
+                    <div class="bento-content">
+                        <span class="bento-index">02</span>
+                        <h3 class="bento-title">Chasis de Aluminio CNC</h3>
+                        <p class="bento-text">Mecanizado de precisión a partir de un bloque sólido de aluminio anodizado para una estructura firme y duradera.</p>
+                    </div>
+                </article>
+
+                <!-- 3 · Conectividad -->
+                <article class="bento-card stagger-item" style="animation-delay: 160ms">
+                    <div class="bento-content">
+                        <span class="bento-index">03</span>
+                        <h3 class="bento-title">Conectividad Trimodal</h3>
+                        <p class="bento-text">Cambia al instante entre macOS, Windows o iPad vía Bluetooth 5.0, Wi-Fi 2.4GHz ultra rápido o cable USB-C de baja latencia (&lt;1ms).</p>
+                        <ul class="bento-badges">
+                            <li>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10-5 5V2l5 5L7 17" /></svg>
+                                Bluetooth 5.0
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0" /><circle cx="12" cy="19.5" r="1.2" class="fill" /></svg>
+                                2.4 GHz
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="8" width="19" height="8" rx="4" /><path d="M7.5 12h9" /></svg>
+                                USB-C
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- 4 · Hot-swap (ancha) -->
+                <article class="bento-card bento-wide bento-split stagger-item" style="animation-delay: 240ms">
+                    <div class="bento-content">
+                        <span class="bento-index">04</span>
+                        <h3 class="bento-title">Arquitectura Hot-Swappable</h3>
+                        <p class="bento-text">Personaliza la sensación táctil cambiando los switches mecánicos fácilmente en cualquier momento sin necesidad de soldar.</p>
+                    </div>
+                    <svg class="bento-switch" viewBox="0 0 260 230" aria-hidden="true">
+                        <!-- eje de ensamble -->
+                        <path d="M100 4 V226" class="axis" />
+
+                        <!-- vástago -->
+                        <path d="M95 10 H105 V20 H113 V28 H105 V36 H95 V28 H87 V20 H95 Z" />
+                        <path d="M78 40 H122 L118 58 H82 Z" />
+                        <path d="M86 58 V66 M114 58 V66" />
+
+                        <!-- carcasa superior -->
+                        <path d="M58 80 H142 L152 108 H48 Z" />
+                        <rect x="88" y="86" width="24" height="14" rx="2" class="faint" />
+
+                        <!-- resorte -->
+                        <path d="M86 122 L114 127 L86 132 L114 137 L86 142 L114 147 L86 152 L114 157" />
+
+                        <!-- carcasa inferior -->
+                        <rect x="46" y="170" width="108" height="30" rx="4" />
+                        <path d="M60 178 H140" class="faint" />
+                        <path d="M95 200 V216 H105 V200" />
+                        <path d="M68 200 V214 M132 200 V210" />
+
+                        <!-- etiquetas -->
+                        <g class="labels">
+                            <path d="M126 28 H180" class="leader" /><text x="186" y="32">Vástago</text>
+                            <path d="M120 140 H180" class="leader" /><text x="186" y="144">Resorte</text>
+                            <path d="M158 185 H180" class="leader" /><text x="186" y="189">Carcasa</text>
+                        </g>
+                    </svg>
+                </article>
+
             </div>
         </div>
     </section>
 
 
-    <!-- ===== TECH SPECS ===== -->
-    <section class="bg-white py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div class="content-max mx-auto">
-            <h2 class="text-2xl sm:text-4xl md:text-5xl mb-8 sm:mb-12 fade-in-on-scroll">Especificaciones técnicas</h2>
+    <!-- ===== REVIEWS (MARQUEE) ===== -->
+    <section class="reviews-section py-12 sm:py-16 md:py-20">
+        <!-- Gradientes de los avatares (definidos una vez, usados por original y copia) -->
+        <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+            <defs>
+                <radialGradient id="av-bg-maria" cx="30%" cy="25%" r="85%"><stop offset="0" stop-color="#F2F2F2" /><stop offset="1" stop-color="#C9C9C9" /></radialGradient>
+                <radialGradient id="av-bg-carlos" cx="30%" cy="25%" r="85%"><stop offset="0" stop-color="#E9E9E9" /><stop offset="1" stop-color="#A8A8A8" /></radialGradient>
+                <radialGradient id="av-bg-sofia" cx="30%" cy="25%" r="85%"><stop offset="0" stop-color="#F7F7F7" /><stop offset="1" stop-color="#D6D6D6" /></radialGradient>
+            </defs>
+        </svg>
 
-            <div class="card fade-in-on-scroll">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-                    <div>
-                        <h4 class="font-semibold mb-3 text-xs uppercase tracking-wide text-secondary">Construcción</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li><span class="text-secondary">Carcasa:</span> Aluminio 6061</li>
-                            <li><span class="text-secondary">Peso:</span> 820g</li>
-                            <li><span class="text-secondary">Dimensiones:</span> 28.5 × 10 × 3.5cm</li>
-                            <li><span class="text-secondary">Acabado:</span> Anodizado mate</li>
-                        </ul>
-                    </div>
-                    <div class="pt-5 sm:pt-0 border-t sm:border-t-0 border-light">
-                        <h4 class="font-semibold mb-3 text-xs uppercase tracking-wide text-secondary">Switches</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li><span class="text-secondary">Compatibilidad:</span> Cherry MX</li>
-                            <li><span class="text-secondary">Tipo:</span> Mecánico</li>
-                            <li><span class="text-secondary">Actitud:</span> 60M toques</li>
-                            <li><span class="text-secondary">Montaje:</span> Hot-swappable</li>
-                        </ul>
-                    </div>
-                    <div class="pt-5 sm:pt-0 border-t sm:border-t-0 border-light">
-                        <h4 class="font-semibold mb-3 text-xs uppercase tracking-wide text-secondary">Conectividad</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li><span class="text-secondary">Puerto:</span> USB-C 3.1</li>
-                            <li><span class="text-secondary">Wireless:</span> Bluetooth 5.0</li>
-                            <li><span class="text-secondary">Protocolos:</span> N-Key Rollover</li>
-                            <li><span class="text-secondary">Compatibilidad:</span> macOS, Windows, Linux</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ===== REVIEWS ===== -->
-    <section class="bg-stone-50 py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div class="content-max mx-auto">
+        <div class="reviews-max mx-auto px-4 sm:px-6">
             <h2 class="text-2xl sm:text-4xl md:text-5xl mb-8 sm:mb-12 fade-in-on-scroll">Lo que dicen nuestros clientes</h2>
+        </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                <div class="card stagger-item" style="animation-delay: 0ms">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h4 class="font-semibold text-sm sm:text-base">María García</h4>
-                            <p class="text-xs sm:text-sm text-secondary">Diseñadora UX</p>
+        <div class="marquee fade-in-on-scroll" aria-label="Testimonios de clientes">
+            <div class="marquee-track">
+                <!-- Set original -->
+                <div class="marquee-group">
+                    <article class="review-card">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-maria)" />
+                                <g>
+                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
+                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
+                                    <path d="M13 20c0-6.5 4.5-10.5 11-10.5S35 13.5 35 20v9c-1.5-1-2.5-3-2.5-6.5-2.5 1.5-6 2-9 1.5-3-.5-5.5-2-6.5-3.5-.5 3-1.5 6-4 8.5z" class="av-hair" />
+                                </g>
+                            </svg>
+                            <div class="min-w-0">
+                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">María García</h4>
+                                <p class="text-xs sm:text-sm text-secondary">Diseñadora UX</p>
+                            </div>
+                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
                         </div>
-                        <span class="text-sm text-amber-400">★★★★★</span>
-                    </div>
-                    <p class="text-secondary text-sm leading-relaxed">«El Prism cambió completamente mi experiencia trabajando. La calidad de construcción es excepcional y el sonido es tan sutil que casi no lo noto, solo el feedback perfecto.»</p>
+                        <p class="text-secondary text-sm leading-relaxed">«El Prism cambió completamente mi experiencia trabajando. La calidad de construcción es excepcional y el sonido es tan sutil que casi no lo noto, solo el feedback perfecto.»</p>
+                    </article>
+                    <article class="review-card">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-carlos)" />
+                                <g>
+                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
+                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
+                                    <path d="M15.5 19.5c0-5.5 3.8-9 8.5-9s8.5 3.5 8.5 9c-1.5-2.2-4.5-3.5-8.5-3.5s-7 1.3-8.5 3.5z" class="av-hair" />
+                                </g>
+                            </svg>
+                            <div class="min-w-0">
+                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">Carlos Rodríguez</h4>
+                                <p class="text-xs sm:text-sm text-secondary">Desarrollador Full-Stack</p>
+                            </div>
+                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <p class="text-secondary text-sm leading-relaxed">«Después de probar varios teclados mecánicos, este es el que mejor se adapta a mi estilo de trabajo. Minimalista, confiable, hermoso.»</p>
+                    </article>
+                    <article class="review-card">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-sofia)" />
+                                <g>
+                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
+                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
+                                    <path d="M14.5 21c0-6.5 4-11 9.5-11s9.5 4.5 9.5 11c0 4 1 7 2.5 9.5-2.5.5-4.5-.5-5.5-2.5V20c-3.5-.5-6-2-7.5-4-1 2-3 3.5-5.5 4.5V28c-1 2-3 3-5.5 2.5 1.5-2.5 2.5-5.5 2.5-9.5z" class="av-hair" />
+                                </g>
+                            </svg>
+                            <div class="min-w-0">
+                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">Sofía Larrea</h4>
+                                <p class="text-xs sm:text-sm text-secondary">Arquitecta &amp; Designer</p>
+                            </div>
+                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <p class="text-secondary text-sm leading-relaxed">«Paso horas dibujando y escribiendo especificaciones. El chasis de aluminio no se mueve ni un milímetro y el tecleo es suave y silencioso. Se siente como una herramienta de precisión.»</p>
+                    </article>
                 </div>
-
-                <div class="card stagger-item" style="animation-delay: 80ms">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h4 class="font-semibold text-sm sm:text-base">Carlos Rodríguez</h4>
-                            <p class="text-xs sm:text-sm text-secondary">Desarrollador Full-Stack</p>
+                <!-- Copia para el bucle infinito -->
+                <div class="marquee-group" aria-hidden="true">
+                    <article class="review-card" aria-hidden="true">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-maria)" />
+                                <g>
+                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
+                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
+                                    <path d="M13 20c0-6.5 4.5-10.5 11-10.5S35 13.5 35 20v9c-1.5-1-2.5-3-2.5-6.5-2.5 1.5-6 2-9 1.5-3-.5-5.5-2-6.5-3.5-.5 3-1.5 6-4 8.5z" class="av-hair" />
+                                </g>
+                            </svg>
+                            <div class="min-w-0">
+                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">María García</h4>
+                                <p class="text-xs sm:text-sm text-secondary">Diseñadora UX</p>
+                            </div>
+                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
                         </div>
-                        <span class="text-sm text-amber-400">★★★★★</span>
-                    </div>
-                    <p class="text-secondary text-sm leading-relaxed">«Después de probar varios teclados mecánicos, este es el que mejor se adapta a mi estilo de trabajo. Minimalista, confiable, hermoso.»</p>
+                        <p class="text-secondary text-sm leading-relaxed">«El Prism cambió completamente mi experiencia trabajando. La calidad de construcción es excepcional y el sonido es tan sutil que casi no lo noto, solo el feedback perfecto.»</p>
+                    </article>
+                    <article class="review-card" aria-hidden="true">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-carlos)" />
+                                <g>
+                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
+                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
+                                    <path d="M15.5 19.5c0-5.5 3.8-9 8.5-9s8.5 3.5 8.5 9c-1.5-2.2-4.5-3.5-8.5-3.5s-7 1.3-8.5 3.5z" class="av-hair" />
+                                </g>
+                            </svg>
+                            <div class="min-w-0">
+                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">Carlos Rodríguez</h4>
+                                <p class="text-xs sm:text-sm text-secondary">Desarrollador Full-Stack</p>
+                            </div>
+                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <p class="text-secondary text-sm leading-relaxed">«Después de probar varios teclados mecánicos, este es el que mejor se adapta a mi estilo de trabajo. Minimalista, confiable, hermoso.»</p>
+                    </article>
+                    <article class="review-card" aria-hidden="true">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-sofia)" />
+                                <g>
+                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
+                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
+                                    <path d="M14.5 21c0-6.5 4-11 9.5-11s9.5 4.5 9.5 11c0 4 1 7 2.5 9.5-2.5.5-4.5-.5-5.5-2.5V20c-3.5-.5-6-2-7.5-4-1 2-3 3.5-5.5 4.5V28c-1 2-3 3-5.5 2.5 1.5-2.5 2.5-5.5 2.5-9.5z" class="av-hair" />
+                                </g>
+                            </svg>
+                            <div class="min-w-0">
+                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">Sofía Larrea</h4>
+                                <p class="text-xs sm:text-sm text-secondary">Arquitecta &amp; Designer</p>
+                            </div>
+                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <p class="text-secondary text-sm leading-relaxed">«Paso horas dibujando y escribiendo especificaciones. El chasis de aluminio no se mueve ni un milímetro y el tecleo es suave y silencioso. Se siente como una herramienta de precisión.»</p>
+                    </article>
                 </div>
             </div>
         </div>
@@ -320,48 +482,56 @@
 
 
     <!-- ===== FAQ ===== -->
-    <section id="faq" class="bg-white py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+    <section id="faq" class="faq-section py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div class="content-max mx-auto">
             <h2 class="text-2xl sm:text-4xl md:text-5xl mb-8 sm:mb-12 fade-in-on-scroll">Preguntas frecuentes</h2>
 
-            <div class="fade-in-on-scroll">
-                <div class="faq-item">
-                    <div class="faq-toggle" onclick="toggleFaq(this)">
-                        <span class="text-sm sm:text-base">¿Son los switches removibles?</span>
-                        <span class="icon-toggle flex-shrink-0 ml-4">▼</span>
-                    </div>
-                    <div class="faq-content">
-                        <p class="text-sm sm:text-base">Sí, todos nuestros teclados tienen hot-swap. Puedes cambiar los switches sin soldar. Compatible con Cherry MX y clones.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-toggle" onclick="toggleFaq(this)">
-                        <span class="text-sm sm:text-base">¿Cuál es el tiempo de entrega?</span>
-                        <span class="icon-toggle flex-shrink-0 ml-4">▼</span>
-                    </div>
-                    <div class="faq-content">
-                        <p class="text-sm sm:text-base">Entrega gratis en 3-5 días hábiles. Para envíos internacionales, 7-10 días. Tracking incluido en todas las órdenes.</p>
+            <div class="faq-list fade-in-on-scroll">
+                <div class="faq-card">
+                    <button class="faq-question" id="faq-q1" aria-expanded="false" aria-controls="faq-a1">
+                        <span>¿Son los switches removibles?</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer" id="faq-a1" role="region" aria-labelledby="faq-q1">
+                        <div class="faq-answer-inner">
+                            <p>Sí. Todos nuestros teclados son hot-swap: puedes cambiar los switches en segundos, sin soldar. Son compatibles con switches de 3 y 5 pines tipo Cherry MX, e incluimos un extractor en la caja.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="faq-item">
-                    <div class="faq-toggle" onclick="toggleFaq(this)">
-                        <span class="text-sm sm:text-base">¿Puedo personalizar los keycaps?</span>
-                        <span class="icon-toggle flex-shrink-0 ml-4">▼</span>
-                    </div>
-                    <div class="faq-content">
-                        <p class="text-sm sm:text-base">Absolutamente. Ofrecemos sets de keycaps premium en diferentes colores y materiales. Compatibles con todos nuestros modelos.</p>
+                <div class="faq-card">
+                    <button class="faq-question" id="faq-q2" aria-expanded="false" aria-controls="faq-a2">
+                        <span>¿Cuál es el tiempo de entrega?</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer" id="faq-a2" role="region" aria-labelledby="faq-q2">
+                        <div class="faq-answer-inner">
+                            <p>El envío es gratuito y llega en 3 a 5 días hábiles a nivel nacional. Los envíos internacionales tardan de 7 a 10 días. Todas las órdenes incluyen número de seguimiento.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="faq-item">
-                    <div class="faq-toggle" onclick="toggleFaq(this)">
-                        <span class="text-sm sm:text-base">¿Cuál es la política de devolución?</span>
-                        <span class="icon-toggle flex-shrink-0 ml-4">▼</span>
+                <div class="faq-card">
+                    <button class="faq-question" id="faq-q3" aria-expanded="false" aria-controls="faq-a3">
+                        <span>¿Puedo personalizar los keycaps?</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer" id="faq-a3" role="region" aria-labelledby="faq-q3">
+                        <div class="faq-answer-inner">
+                            <p>Por supuesto. Ofrecemos sets premium en PBT doubleshot en distintos colores y perfiles, compatibles con todos nuestros modelos. También funcionan con la mayoría de keycaps de perfil estándar.</p>
+                        </div>
                     </div>
-                    <div class="faq-content">
-                        <p class="text-sm sm:text-base">Garantía de 30 días sin preguntas. Si no estás satisfecho, devolvemos tu dinero. Después, cobertura de por vida en defectos de fabricación.</p>
+                </div>
+
+                <div class="faq-card">
+                    <button class="faq-question" id="faq-q4" aria-expanded="false" aria-controls="faq-a4">
+                        <span>¿Cuál es la política de devolución?</span>
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer" id="faq-a4" role="region" aria-labelledby="faq-q4">
+                        <div class="faq-answer-inner">
+                            <p>Tienes 30 días para devolver tu teclado sin preguntas y te reembolsamos el total. Después, te respalda nuestra garantía de por vida contra defectos de fabricación.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -369,67 +539,127 @@
     </section>
 
 
-    <!-- ===== NEWSLETTER ===== -->
-    <section class="bg-stone-50 border-light border-t py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-        <div class="content-max mx-auto text-center">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl mb-3 fade-in-on-scroll">Mantente actualizado</h2>
-            <p class="text-secondary mb-6 text-sm sm:text-base fade-in-on-scroll" style="animation-delay: 80ms">Nuevos modelos, ofertas exclusivas y consejos de mecanografía.</p>
+    <!-- ===== NEWSLETTER (CTA) ===== -->
+    <section class="cta-section py-12 sm:py-16 md:py-24 px-4 sm:px-6">
+        <div class="cta-card fade-in-on-scroll">
+            <span class="cta-eyebrow">Acceso exclusivo</span>
+            <h2 class="cta-title">Únete al club ANG</h2>
+            <p class="cta-subtitle">Recibe notificaciones de nuevos drops, ediciones limitadas y descuentos para miembros antes que nadie.</p>
 
-            <form class="newsletter-form max-w-sm sm:max-w-md mx-auto fade-in-on-scroll" style="animation-delay: 160ms" onsubmit="handleNewsletter(event)">
-                <input type="email" placeholder="tu@correo.com" required>
-                <button type="submit" class="btn w-full sm:w-auto">Suscribirse</button>
+            <form class="cta-form" id="cta-form" novalidate>
+                <div class="cta-capsule">
+                    <label for="cta-email" class="sr-only">Correo electrónico</label>
+                    <input type="email" id="cta-email" name="email" placeholder="tu@correo.com" autocomplete="email" required>
+                    <button type="submit" class="cta-button">Suscribirse</button>
+                    <div class="cta-success" role="status" aria-live="polite">
+                        <span class="cta-check" aria-hidden="true">✓</span>
+                        <span>¡Suscripción confirmada!</span>
+                    </div>
+                </div>
+                <p class="cta-hint" id="cta-hint">Sin spam. Cancela cuando quieras.</p>
             </form>
         </div>
     </section>
 
 
     <!-- ===== FOOTER ===== -->
-    <footer class="bg-stone-950 border-light border-t">
-        <div class="content-max mx-auto px-4 sm:px-6 py-12 sm:py-16">
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
-                <div class="col-span-2 sm:col-span-1">
-                    <h4 class="font-semibold mb-3 text-white">ANG Shop</h4>
-                    <p class="text-stone-400 text-sm">Teclados mecánicos minimalistas para el trabajo profundo.</p>
+    <footer class="site-footer bg-zinc-950">
+        <div class="max-w-6xl mx-auto px-6 py-12 sm:py-16">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-10">
+
+                <!-- Marca -->
+                <div class="col-span-2 sm:col-span-3 lg:col-span-2 max-w-xs">
+                    <a href="#" class="inline-block" aria-label="ANG Shop – inicio">
+                        <img src="imagenes/logoglass01.png" alt="ANG Shop" class="footer-logo" />
+                    </a>
+                    <p class="text-zinc-400 text-sm leading-relaxed mt-4">Teclados mecánicos minimalistas para el trabajo profundo.</p>
                 </div>
-                <div>
-                    <h4 class="font-semibold mb-3 text-xs uppercase tracking-wide text-white">Producto</h4>
-                    <ul class="space-y-2 text-sm text-stone-400">
-                        <li><a href="#" class="hover:text-white transition">Teclados</a></li>
-                        <li><a href="#" class="hover:text-white transition">Switches</a></li>
-                        <li><a href="#" class="hover:text-white transition">Keycaps</a></li>
-                        <li><a href="#" class="hover:text-white transition">Accesorios</a></li>
+
+                <!-- Producto -->
+                <nav aria-label="Producto">
+                    <h4 class="footer-heading">Producto</h4>
+                    <ul class="footer-links">
+                        <li><a href="#productos">Teclados</a></li>
+                        <li><a href="#">Switches</a></li>
+                        <li><a href="#">Keycaps</a></li>
+                        <li><a href="#">Accesorios</a></li>
                     </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-3 text-xs uppercase tracking-wide text-white">Empresa</h4>
-                    <ul class="space-y-2 text-sm text-stone-400">
-                        <li><a href="#" class="hover:text-white transition">Sobre nosotros</a></li>
-                        <li><a href="#" class="hover:text-white transition">Contacto</a></li>
-                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
-                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                </nav>
+
+                <!-- Empresa -->
+                <nav aria-label="Empresa">
+                    <h4 class="footer-heading">Empresa</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Sobre nosotros</a></li>
+                        <li><a href="#">Contacto</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Carreras</a></li>
                     </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-3 text-xs uppercase tracking-wide text-white">Legal</h4>
-                    <ul class="space-y-2 text-sm text-stone-400">
-                        <li><a href="#" class="hover:text-white transition">Privacidad</a></li>
-                        <li><a href="#" class="hover:text-white transition">Términos</a></li>
-                        <li><a href="#" class="hover:text-white transition">Cookies</a></li>
-                        <li><a href="#" class="hover:text-white transition">Sitemap</a></li>
+                </nav>
+
+                <!-- Legal -->
+                <nav aria-label="Legal">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacidad</a></li>
+                        <li><a href="#">Términos</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Sitemap</a></li>
                     </ul>
-                </div>
+                </nav>
             </div>
 
-            <div class="border-stone-800 border-t pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <p class="text-stone-400 text-sm">© 2026 ANG Shop. Hecho con precisión.</p>
-                <div class="flex gap-6">
-                    <a href="#" class="text-stone-400 hover:text-white transition text-sm">Twitter</a>
-                    <a href="#" class="text-stone-400 hover:text-white transition text-sm">Instagram</a>
-                    <a href="#" class="text-stone-400 hover:text-white transition text-sm">GitHub</a>
-                </div>
+            <!-- Inferior: copyright + redes -->
+            <div class="border-t border-zinc-800/80 mt-12 pt-6 flex flex-col-reverse sm:flex-row justify-between items-center gap-5">
+                <p class="text-zinc-500 text-sm">© 2026 ANG Shop. Hecho con precisión.</p>
+
+                <ul class="footer-social">
+                    <li>
+                        <a href="#" aria-label="X (Twitter)">
+                            <svg viewBox="0 0 24 24" class="fill-icon" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" class="stroke-icon" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.3" cy="6.7" r="0.9" class="dot" /></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" aria-label="GitHub">
+                            <svg viewBox="0 0 16 16" class="fill-icon" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" class="stroke-icon" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" /><path d="M10 9.2v5.6l4.8-2.8z" class="dot" /></svg>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </footer>
+
+    <!-- ===== MODAL VISTA RÁPIDA ===== -->
+    <div class="pmodal" id="product-modal" aria-hidden="true">
+        <div class="pmodal-backdrop" data-close></div>
+        <div class="pmodal-window" role="dialog" aria-modal="true" aria-labelledby="pmodal-name">
+            <button class="pmodal-close" id="pmodal-close" aria-label="Cerrar" data-close>&times;</button>
+            <div class="pmodal-grid">
+                <div class="pmodal-media" id="pmodal-media" title="Clic para ampliar">
+                    <img id="pmodal-img" alt="" />
+                    <span class="pmodal-zoom-hint" id="pmodal-zoom-hint">Clic para ampliar</span>
+                </div>
+                <div class="pmodal-info">
+                    <span class="tag" id="pmodal-tag"></span>
+                    <h2 class="pmodal-name" id="pmodal-name"></h2>
+                    <p class="pmodal-price" id="pmodal-price"></p>
+                    <p class="text-secondary text-sm sm:text-base leading-relaxed" id="pmodal-desc"></p>
+                    <dl class="pmodal-specs" id="pmodal-specs"></dl>
+                    <button class="btn pmodal-cta" id="pmodal-cta">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
