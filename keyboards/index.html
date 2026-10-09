@@ -8,8 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/phosphor-icons@1.4.2/src/bold/style.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="preload" as="image" href="imagenes/Producto001.png">
+    <link rel="stylesheet" href="tienda.css">
     <link rel="preload" as="image" href="imagenes/Producto002.png">
+    <link rel="preload" as="image" href="imagenes/Producto001.png">
     <link rel="preload" as="image" href="imagenes/Producto003.png">
     <link rel="preload" as="image" href="imagenes/Producto004.png">
     <link rel="preload" as="image" href="imagenes/Producto005.png">
@@ -21,21 +22,38 @@
         <div class="content-max mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
 
             <!-- Logo -->
-            <a href="#" class="flex-shrink-0">
-                <img src="imagenes/logoglass01.png" alt="ANG Shop" class="h-8 w-auto object-contain" />
+            <a href="#" class="min-w-0 sm:flex-shrink-0">
+                <img src="imagenes/logoglass01.png" alt="ANG Shop" class="h-7 sm:h-8 w-auto max-w-full object-contain" />
             </a>
 
-            <!-- Desktop Nav Links -->
-            <div class="hidden md:flex gap-8 items-center">
-                <a href="#productos" class="text-secondary hover:text-black transition text-sm">Productos</a>
-                <a href="#especificaciones" class="text-secondary hover:text-black transition text-sm">Specs</a>
-                <a href="#faq" class="text-secondary hover:text-black transition text-sm">FAQ</a>
-                <button class="btn">Comprar</button>
-            </div>
+            <div class="flex items-center gap-1 sm:gap-2 md:gap-8 flex-shrink-0">
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex gap-8 items-center">
+                    <a href="#/productos" data-nav="catalog" class="text-zinc-900 font-medium text-[15px] hover:text-zinc-500 transition-all duration-200">Productos</a>
+                    <a href="#experiencia" class="text-zinc-900 font-medium text-[15px] hover:text-zinc-500 transition-all duration-200">Experiencia</a>
+                    <a href="#faq" class="text-zinc-900 font-medium text-[15px] hover:text-zinc-500 transition-all duration-200">FAQ</a>
+                </div>
+
+                <!-- Iconos de acción -->
+                <div class="flex items-center gap-1">
+                    <button type="button" id="nav-cart" class="w-9 h-9 sm:w-10 sm:h-10 inline-flex items-center justify-center rounded-full text-zinc-900 hover:text-zinc-500 transition-all duration-200" aria-label="Abrir bolsa de compras" style="position: relative;">
+                        <span class="bag-count" id="bag-count" hidden>0</span>
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 8z" />
+                            <path d="M9 10V7a3 3 0 0 1 6 0v3" />
+                        </svg>
+                    </button>
+                    <button type="button" id="nav-user" class="w-9 h-9 sm:w-10 sm:h-10 inline-flex items-center justify-center rounded-full text-zinc-900 hover:text-zinc-500 transition-all duration-200" aria-label="Iniciar sesión o ver perfil">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="8.5" r="3.5" />
+                            <path d="M5 20c1-3.6 3.8-5.5 7-5.5s6 1.9 7 5.5" />
+                        </svg>
+                    </button>
+                </div>
 
             <!-- Mobile Hamburger Button -->
             <button
-                class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded-md hover:bg-stone-100 transition"
+                class="md:hidden flex flex-col justify-center items-center w-9 h-9 sm:w-10 sm:h-10 gap-1.5 rounded-md hover:bg-stone-100 transition"
                 id="hamburger-btn"
                 aria-label="Abrir menú"
                 aria-expanded="false"
@@ -45,21 +63,22 @@
                 <span class="hamburger-line block w-5 h-0.5 bg-stone-800 transition-all duration-300"></span>
                 <span class="hamburger-line block w-5 h-0.5 bg-stone-800 transition-all duration-300"></span>
             </button>
+            </div>
         </div>
 
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="mobile-menu md:hidden border-t border-light bg-white">
             <div class="content-max mx-auto px-4 py-4 flex flex-col gap-1">
-                <a href="#productos" class="mobile-nav-link" onclick="toggleMenu()">Productos</a>
-                <a href="#especificaciones" class="mobile-nav-link" onclick="toggleMenu()">Specs</a>
+                <a href="#/productos" data-nav="catalog" class="mobile-nav-link" onclick="toggleMenu()">Productos</a>
+                <a href="#experiencia" class="mobile-nav-link" onclick="toggleMenu()">Experiencia</a>
                 <a href="#faq" class="mobile-nav-link" onclick="toggleMenu()">FAQ</a>
-                <div class="pt-3 border-t border-light mt-2">
-                    <button class="btn w-full">Comprar</button>
-                </div>
             </div>
         </div>
     </nav>
 
+
+    <!-- ===================== VISTA: PORTADA ===================== -->
+    <main id="view-home" class="app-view">
 
     <!-- ===== HERO ===== -->
     <section class="hero-section ambient-bg">
@@ -68,11 +87,11 @@
         <!-- ===== CARRUSEL 3D ===== -->
         <div class="carousel3d relative z-10" id="carousel3d" aria-roledescription="carrusel" aria-label="Colección de teclados">
             <div class="carousel3d-stage" id="carousel3d-stage">
-                <div class="carousel3d-card" data-name="ANG Aurora" data-desc="Formato 75% con perilla y pantalla integrada. Keycaps blancos y lavanda con retroiluminación RGB.">
-                    <img src="imagenes/Producto001.png" alt="ANG Aurora – teclado 75% blanco y lavanda" draggable="false" loading="eager" fetchpriority="high" decoding="async" />
-                </div>
                 <div class="carousel3d-card" data-name="ANG Crimson" data-desc="Compacto 65% con keycaps de grabado topográfico negro y rojo. Carácter puro en poco espacio.">
-                    <img src="imagenes/Producto002.png" alt="ANG Crimson – teclado 65% negro y rojo" draggable="false" loading="eager" decoding="async" />
+                    <img src="imagenes/Producto002.png" alt="ANG Crimson – teclado 65% negro y rojo" draggable="false" loading="eager" fetchpriority="high" decoding="async" />
+                </div>
+                <div class="carousel3d-card" data-name="ANG Aurora" data-desc="Formato 75% con perilla y pantalla integrada. Keycaps blancos y lavanda con retroiluminación RGB.">
+                    <img src="imagenes/Producto001.png" alt="ANG Aurora – teclado 75% blanco y lavanda" draggable="false" loading="eager" decoding="async" />
                 </div>
                 <div class="carousel3d-card" data-name="ANG Blossom" data-desc="Tenkeyless con degradado rosa y pantalla lateral. Suave al tacto, silencioso al teclear.">
                     <img src="imagenes/Producto003.png" alt="ANG Blossom – teclado TKL rosa" draggable="false" loading="eager" decoding="async" />
@@ -110,10 +129,12 @@
 
         <!-- Arquitectura: imagen + texto -->
         <div class="precision-max relative z-10 mx-auto px-4 sm:px-6 mt-12 sm:mt-16">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center text-left">
+            <!-- Móvil: imagen | primer párrafo en 2 columnas; el resto debajo a todo el ancho.
+                 Desktop (lg): imagen a la izquierda (2 filas) y todo el texto a la derecha. -->
+            <div class="grid grid-cols-2 lg:grid-cols-12 gap-x-3 gap-y-5 sm:gap-x-8 sm:gap-y-8 lg:gap-x-12 lg:gap-y-0 items-center text-left">
 
                 <!-- Imagen glass -->
-                <div class="lg:col-span-7 fade-in-on-scroll" style="animation-delay: 240ms">
+                <div class="lg:col-span-7 lg:row-span-2 fade-in-on-scroll" style="animation-delay: 240ms">
                     <div class="glass-image-card">
                         <img
                             src="imagenes/arqui1.png"
@@ -123,12 +144,16 @@
                     </div>
                 </div>
 
-                <!-- Texto -->
-                <div class="lg:col-span-5 fade-in-on-scroll" style="animation-delay: 320ms">
-                    <p class="text-secondary mb-4 leading-relaxed text-sm sm:text-base">
+                <!-- Texto (1/2): junto a la imagen en móvil -->
+                <div class="lg:col-span-5 lg:self-end fade-in-on-scroll" style="animation-delay: 320ms">
+                    <p class="precision-lead text-secondary lg:mb-4 leading-relaxed sm:text-base">
                         Cada teclado ANG Shop es el resultado de años de investigación en diseño mecánico. Nuestros switches están calibrados al milímetro, cada resorte tensionado con precisión óptica, cada contacto de latón chapado en oro para durabilidad extrema.
                     </p>
-                    <p class="text-secondary mb-6 leading-relaxed text-sm sm:text-base">
+                </div>
+
+                <!-- Texto (2/2): especificaciones y botones -->
+                <div class="col-span-2 lg:col-span-5 lg:col-start-8 lg:self-start fade-in-on-scroll" style="animation-delay: 360ms">
+                    <p class="text-secondary mb-6 leading-relaxed text-[13px] sm:text-base">
                         El proceso de ensamble es completamente manual. Nuestros técnicos prueban cada unidad durante 48 horas antes del envío, validando latencia, respuesta y sonido. Cero compromiso. Cero defectos aceptados.
                     </p>
                     <ul class="spec-list">
@@ -137,8 +162,8 @@
                         <li><span class="spec-arrow">→</span><span>Contactos de latón chapado en oro 24k</span></li>
                         <li><span class="spec-arrow">→</span><span>PCB dampening reforzado con espuma de aviación</span></li>
                     </ul>
-                    <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                        <button class="btn w-full sm:w-auto">Explorar colección</button>
+                    <div class="mt-6 sm:mt-8 grid grid-cols-2 sm:flex sm:flex-row gap-3">
+                        <a href="#/productos" class="btn w-full sm:w-auto">Explorar colección</a>
                         <button class="btn btn-secondary w-full sm:w-auto">Ver especificaciones</button>
                     </div>
                 </div>
@@ -152,21 +177,7 @@
             <h2 class="text-2xl sm:text-4xl md:text-5xl mb-8 sm:mb-12 fade-in-on-scroll">Productos Destacados</h2>
 
             <div class="products-grid">
-                <article class="card product-card stagger-item" style="animation-delay: 0ms" data-product="p1" tabindex="0" role="button" aria-label="Ver detalles de ANG Aurora">
-                    <div class="product-img-wrap mb-5">
-                        <img src="imagenes/Producto001.png" alt="ANG Aurora – teclado mecánico" class="product-img-centered" loading="eager" decoding="async" />
-                        <span class="product-quickview">Vista rápida</span>
-                    </div>
-                    <span class="tag">Switch silencioso</span>
-                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Aurora</h3>
-                    <p class="text-secondary text-sm mb-5">75% con perilla y pantalla integrada. Switches silenciosos de 45g, ideal para espacios compartidos.</p>
-                    <div class="mb-5 mt-auto">
-                        <span class="text-2xl font-bold product-price">S/ 699</span>
-                    </div>
-                    <button class="btn w-full">Añadir al carrito</button>
-                </article>
-
-                <article class="card product-card stagger-item" style="animation-delay: 80ms" data-product="p2" tabindex="0" role="button" aria-label="Ver detalles de ANG Crimson">
+                <article class="card product-card stagger-item" style="animation-delay: 0ms" data-product="p2" tabindex="0" role="button" aria-label="Ver detalles de ANG Crimson">
                     <div class="product-img-wrap mb-5">
                         <img src="imagenes/Producto002.png" alt="ANG Crimson – teclado mecánico" class="product-img-centered" loading="eager" decoding="async" />
                         <span class="product-quickview">Vista rápida</span>
@@ -177,7 +188,21 @@
                     <div class="mb-5 mt-auto">
                         <span class="text-2xl font-bold product-price">S/ 549</span>
                     </div>
-                    <button class="btn w-full">Añadir al carrito</button>
+                    <button class="btn w-full" data-add-to-bag="p2">Añadir a la bolsa</button>
+                </article>
+
+                <article class="card product-card stagger-item" style="animation-delay: 80ms" data-product="p1" tabindex="0" role="button" aria-label="Ver detalles de ANG Aurora">
+                    <div class="product-img-wrap mb-5">
+                        <img src="imagenes/Producto001.png" alt="ANG Aurora – teclado mecánico" class="product-img-centered" loading="eager" decoding="async" />
+                        <span class="product-quickview">Vista rápida</span>
+                    </div>
+                    <span class="tag">Switch silencioso</span>
+                    <h3 class="text-lg font-semibold mt-3 mb-1">ANG Aurora</h3>
+                    <p class="text-secondary text-sm mb-5">75% con perilla y pantalla integrada. Switches silenciosos de 45g, ideal para espacios compartidos.</p>
+                    <div class="mb-5 mt-auto">
+                        <span class="text-2xl font-bold product-price">S/ 699</span>
+                    </div>
+                    <button class="btn w-full" data-add-to-bag="p1">Añadir a la bolsa</button>
                 </article>
 
                 <article class="card product-card stagger-item" style="animation-delay: 160ms" data-product="p3" tabindex="0" role="button" aria-label="Ver detalles de ANG Blossom">
@@ -191,7 +216,7 @@
                     <div class="mb-5 mt-auto">
                         <span class="text-2xl font-bold product-price">S/ 599</span>
                     </div>
-                    <button class="btn w-full">Añadir al carrito</button>
+                    <button class="btn w-full" data-add-to-bag="p3">Añadir a la bolsa</button>
                 </article>
 
                 <article class="card product-card stagger-item" style="animation-delay: 240ms" data-product="p4" tabindex="0" role="button" aria-label="Ver detalles de ANG Hornet">
@@ -205,7 +230,7 @@
                     <div class="mb-5 mt-auto">
                         <span class="text-2xl font-bold product-price">S/ 819</span>
                     </div>
-                    <button class="btn w-full">Añadir al carrito</button>
+                    <button class="btn w-full" data-add-to-bag="p4">Añadir a la bolsa</button>
                 </article>
 
                 <article class="card product-card stagger-item" style="animation-delay: 320ms" data-product="p5" tabindex="0" role="button" aria-label="Ver detalles de ANG Glacier">
@@ -219,15 +244,19 @@
                     <div class="mb-5 mt-auto">
                         <span class="text-2xl font-bold product-price">S/ 929</span>
                     </div>
-                    <button class="btn w-full">Añadir al carrito</button>
+                    <button class="btn w-full" data-add-to-bag="p5">Añadir a la bolsa</button>
                 </article>
+            </div>
+
+            <div class="text-center mt-10 sm:mt-12 fade-in-on-scroll">
+                <a href="#/productos" class="catalog-link">Ver catálogo completo <span aria-hidden="true">→</span></a>
             </div>
         </div><!-- /products-max -->
     </section>
 
 
     <!-- ===== LA EXPERIENCIA ANG (BENTO) ===== -->
-    <section id="especificaciones" class="bento-section py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+    <section id="experiencia" class="bento-section py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div class="bento-max mx-auto">
             <div class="mb-8 sm:mb-12 fade-in-on-scroll">
                 <span class="bento-eyebrow">Diseño · Ingeniería · Sonido</span>
@@ -362,8 +391,8 @@
 
         <div class="marquee fade-in-on-scroll" aria-label="Testimonios de clientes">
             <div class="marquee-track">
-                <!-- Set original -->
-                <div class="marquee-group">
+                <!-- Set original: script.js lo duplica para el bucle infinito -->
+                <div class="marquee-group" id="marquee-base">
                     <article class="review-card">
                         <div class="flex items-center gap-3 mb-4">
                             <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
@@ -401,63 +430,6 @@
                         <p class="text-secondary text-sm leading-relaxed">«Después de probar varios teclados mecánicos, este es el que mejor se adapta a mi estilo de trabajo. Minimalista, confiable, hermoso.»</p>
                     </article>
                     <article class="review-card">
-                        <div class="flex items-center gap-3 mb-4">
-                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
-                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-sofia)" />
-                                <g>
-                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
-                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
-                                    <path d="M14.5 21c0-6.5 4-11 9.5-11s9.5 4.5 9.5 11c0 4 1 7 2.5 9.5-2.5.5-4.5-.5-5.5-2.5V20c-3.5-.5-6-2-7.5-4-1 2-3 3.5-5.5 4.5V28c-1 2-3 3-5.5 2.5 1.5-2.5 2.5-5.5 2.5-9.5z" class="av-hair" />
-                                </g>
-                            </svg>
-                            <div class="min-w-0">
-                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">Sofía Larrea</h4>
-                                <p class="text-xs sm:text-sm text-secondary">Arquitecta &amp; Designer</p>
-                            </div>
-                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <p class="text-secondary text-sm leading-relaxed">«Paso horas dibujando y escribiendo especificaciones. El chasis de aluminio no se mueve ni un milímetro y el tecleo es suave y silencioso. Se siente como una herramienta de precisión.»</p>
-                    </article>
-                </div>
-                <!-- Copia para el bucle infinito -->
-                <div class="marquee-group" aria-hidden="true">
-                    <article class="review-card" aria-hidden="true">
-                        <div class="flex items-center gap-3 mb-4">
-                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
-                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-maria)" />
-                                <g>
-                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
-                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
-                                    <path d="M13 20c0-6.5 4.5-10.5 11-10.5S35 13.5 35 20v9c-1.5-1-2.5-3-2.5-6.5-2.5 1.5-6 2-9 1.5-3-.5-5.5-2-6.5-3.5-.5 3-1.5 6-4 8.5z" class="av-hair" />
-                                </g>
-                            </svg>
-                            <div class="min-w-0">
-                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">María García</h4>
-                                <p class="text-xs sm:text-sm text-secondary">Diseñadora UX</p>
-                            </div>
-                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <p class="text-secondary text-sm leading-relaxed">«El Prism cambió completamente mi experiencia trabajando. La calidad de construcción es excepcional y el sonido es tan sutil que casi no lo noto, solo el feedback perfecto.»</p>
-                    </article>
-                    <article class="review-card" aria-hidden="true">
-                        <div class="flex items-center gap-3 mb-4">
-                            <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
-                                <circle cx="24" cy="24" r="24" fill="url(#av-bg-carlos)" />
-                                <g>
-                                    <path d="M8 48c1.5-9 8-13.5 16-13.5S38.5 39 40 48z" class="av-body" />
-                                    <circle cx="24" cy="22" r="8.5" class="av-face" />
-                                    <path d="M15.5 19.5c0-5.5 3.8-9 8.5-9s8.5 3.5 8.5 9c-1.5-2.2-4.5-3.5-8.5-3.5s-7 1.3-8.5 3.5z" class="av-hair" />
-                                </g>
-                            </svg>
-                            <div class="min-w-0">
-                                <h4 class="font-semibold text-sm sm:text-base text-stone-900">Carlos Rodríguez</h4>
-                                <p class="text-xs sm:text-sm text-secondary">Desarrollador Full-Stack</p>
-                            </div>
-                            <span class="review-stars" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <p class="text-secondary text-sm leading-relaxed">«Después de probar varios teclados mecánicos, este es el que mejor se adapta a mi estilo de trabajo. Minimalista, confiable, hermoso.»</p>
-                    </article>
-                    <article class="review-card" aria-hidden="true">
                         <div class="flex items-center gap-3 mb-4">
                             <svg class="review-avatar" viewBox="0 0 48 48" aria-hidden="true">
                                 <circle cx="24" cy="24" r="24" fill="url(#av-bg-sofia)" />
@@ -562,13 +534,83 @@
     </section>
 
 
+    </main>
+
+    <!-- ===================== VISTA: CATÁLOGO ===================== -->
+    <!-- Se muestra con la ruta #/productos (ver tienda.js). Navbar y Footer son compartidos. -->
+    <main id="view-catalog" class="app-view catalog-view" hidden>
+
+        <section class="catalog-hero px-4 sm:px-6">
+            <div class="catalog-max mx-auto">
+                <nav class="catalog-breadcrumb" aria-label="Ruta de navegación">
+                    <a href="#">Inicio</a>
+                    <span aria-hidden="true">/</span>
+                    <span aria-current="page">Productos</span>
+                </nav>
+                <h1 class="catalog-title">Catálogo</h1>
+                <p class="catalog-subtitle">Todos los teclados ANG, ensamblados a mano y probados 48 horas antes del envío.</p>
+            </div>
+        </section>
+
+        <!-- Barra flotante de búsqueda y filtros -->
+        <div class="catalog-toolbar-wrap px-4 sm:px-6">
+            <div class="catalog-toolbar catalog-max mx-auto" role="search">
+                <label class="catalog-search">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" /></svg>
+                    <span class="sr-only">Buscar por nombre</span>
+                    <input type="search" id="catalog-search" placeholder="Buscar teclado…" autocomplete="off">
+                </label>
+
+                <div class="catalog-chips" role="group" aria-label="Formato">
+                    <button type="button" class="chip active" data-format="all" aria-pressed="true">Todos</button>
+                    <button type="button" class="chip" data-format="65" aria-pressed="false">65%</button>
+                    <button type="button" class="chip" data-format="75" aria-pressed="false">75%</button>
+                    <button type="button" class="chip" data-format="custom" aria-pressed="false">Custom</button>
+                </div>
+
+                <div class="catalog-chips catalog-switch" role="group" aria-label="Tipo de switch">
+                    <span class="catalog-switch-label" aria-hidden="true">Switch</span>
+                    <button type="button" class="chip chip-sm" data-switch="Lineal" aria-pressed="false">Lineal</button>
+                    <button type="button" class="chip chip-sm" data-switch="Táctil" aria-pressed="false">Táctil</button>
+                    <button type="button" class="chip chip-sm" data-switch="Clicky" aria-pressed="false">Clicky</button>
+                </div>
+
+                <div class="dropdown catalog-sort" id="catalog-sort">
+                    <button type="button" class="dropdown-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="catalog-sort-menu">
+                        <span class="sr-only">Ordenar: </span>
+                        <span class="dropdown-value">Más Populares</span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" /></svg>
+                    </button>
+                    <ul class="dropdown-menu" id="catalog-sort-menu" role="listbox" aria-label="Ordenar" tabindex="-1">
+                        <li role="option" data-value="popular" aria-selected="true">Más Populares</li>
+                        <li role="option" data-value="price-asc" aria-selected="false">Precio: Menor a Mayor</li>
+                        <li role="option" data-value="price-desc" aria-selected="false">Precio: Mayor a Menor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <section class="catalog-results px-4 sm:px-6">
+            <div class="catalog-max mx-auto">
+                <p class="catalog-count" id="catalog-count" aria-live="polite"></p>
+                <div class="catalog-grid" id="catalog-grid"></div>
+
+                <div class="catalog-empty" id="catalog-empty" hidden>
+                    <p class="catalog-empty-title">No encontramos teclados con esos filtros</p>
+                    <p class="text-secondary text-sm mt-1">Prueba con otro término o restablece los filtros.</p>
+                    <button type="button" class="btn btn-secondary mt-5" id="catalog-reset">Restablecer filtros</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <!-- ===== FOOTER ===== -->
     <footer class="site-footer bg-zinc-950">
         <div class="max-w-6xl mx-auto px-6 py-12 sm:py-16">
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-10">
+            <div class="grid grid-cols-3 lg:grid-cols-5 gap-x-3 sm:gap-x-8 gap-y-8 sm:gap-y-10">
 
                 <!-- Marca -->
-                <div class="col-span-2 sm:col-span-3 lg:col-span-2 max-w-xs">
+                <div class="col-span-full lg:col-span-2 max-w-xs">
                     <a href="#" class="inline-block" aria-label="ANG Shop – inicio">
                         <img src="imagenes/logoglass01.png" alt="ANG Shop" class="footer-logo" />
                     </a>
@@ -579,7 +621,7 @@
                 <nav aria-label="Producto">
                     <h4 class="footer-heading">Producto</h4>
                     <ul class="footer-links">
-                        <li><a href="#productos">Teclados</a></li>
+                        <li><a href="#/productos">Teclados</a></li>
                         <li><a href="#">Switches</a></li>
                         <li><a href="#">Keycaps</a></li>
                         <li><a href="#">Accesorios</a></li>
@@ -610,7 +652,7 @@
             </div>
 
             <!-- Inferior: copyright + redes -->
-            <div class="border-t border-zinc-800/80 mt-12 pt-6 flex flex-col-reverse sm:flex-row justify-between items-center gap-5">
+            <div class="border-t border-zinc-800/80 mt-10 sm:mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-5">
                 <p class="text-zinc-500 text-sm">© 2026 ANG Shop. Hecho con precisión.</p>
 
                 <ul class="footer-social">
@@ -655,12 +697,53 @@
                     <p class="pmodal-price" id="pmodal-price"></p>
                     <p class="text-secondary text-sm sm:text-base leading-relaxed" id="pmodal-desc"></p>
                     <dl class="pmodal-specs" id="pmodal-specs"></dl>
-                    <button class="btn pmodal-cta" id="pmodal-cta">Añadir al carrito</button>
+                    <button class="btn pmodal-cta" id="pmodal-cta">Añadir a la bolsa</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- ===== BOLSA DE COMPRAS (DRAWER) ===== -->
+    <div class="bag" id="bag" aria-hidden="true">
+        <div class="bag-backdrop" data-bag-close></div>
+        <aside class="bag-panel" role="dialog" aria-modal="true" aria-labelledby="bag-title">
+            <header class="bag-header">
+                <div>
+                    <h2 class="bag-title" id="bag-title">Tu bolsa</h2>
+                    <p class="bag-subtitle" id="bag-subtitle"></p>
+                </div>
+                <button type="button" class="pmodal-close bag-close" id="bag-close" aria-label="Cerrar bolsa" data-bag-close>&times;</button>
+            </header>
+
+            <ul class="bag-items" id="bag-items"></ul>
+
+            <div class="bag-empty" id="bag-empty" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 8z" /><path d="M9 10V7a3 3 0 0 1 6 0v3" /></svg>
+                <p class="font-semibold text-zinc-900">Tu bolsa está vacía</p>
+                <p class="text-secondary text-sm">Explora el catálogo y encuentra tu próximo teclado.</p>
+                <a href="#/productos" class="btn mt-4" data-bag-close>Explorar catálogo</a>
+            </div>
+
+            <footer class="bag-footer" id="bag-footer">
+                <div class="bag-row">
+                    <span>Subtotal</span>
+                    <span class="bag-subtotal" id="bag-subtotal">S/ 0</span>
+                </div>
+                <div class="bag-row bag-row-muted">
+                    <span>Envío</span>
+                    <span>Gratis</span>
+                </div>
+                <button type="button" class="btn bag-checkout" id="bag-checkout">Ir al checkout</button>
+                <button type="button" class="bag-continue" data-bag-close>Seguir comprando</button>
+            </footer>
+        </aside>
+    </div>
+
+    <!-- Aviso flotante -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="productos.js"></script>
     <script src="script.js"></script>
+    <script src="tienda.js"></script>
 </body>
 </html>

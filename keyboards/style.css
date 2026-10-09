@@ -1303,11 +1303,13 @@ body.modal-open { overflow: hidden; }
     animation: marquee 45s linear infinite;
 }
 
-/* Pausa al pasar el cursor (o enfocar) cualquier tarjeta */
-.marquee-track:hover,
-.marquee-track:focus-within {
-    animation-play-state: paused;
+/* Pausa al pasar el cursor (o enfocar) cualquier tarjeta.
+   Solo con puntero real: en táctil el :hover queda "pegado" tras un toque. */
+@media (hover: hover) {
+    .marquee-track:hover { animation-play-state: paused; }
 }
+
+.marquee-track:focus-within { animation-play-state: paused; }
 
 /* Cada grupo = 3 tarjetas + sus márgenes; mover -50% equivale a un grupo exacto */
 .marquee-group { display: flex; }
@@ -1655,4 +1657,126 @@ body.modal-open { overflow: hidden; }
 .footer-social .stroke-icon .dot {
     fill: currentColor;
     stroke: none;
+}
+
+/* =============================================
+   AJUSTES MÓVILES (solo < 640px; escritorio intacto)
+   ============================================= */
+
+@media (max-width: 639px) {
+
+    /* Red de seguridad contra scroll horizontal (clip no rompe el navbar sticky) */
+    #view-home,
+    .site-footer {
+        max-width: 100%;
+        overflow-x: clip;
+    }
+
+    /* ── Carrusel 3D: la tarjeta activa deja libre el espacio de las flechas ── */
+    .carousel3d {
+        --card-w: min(calc(100vw - 104px), 460px);
+        --spread: calc(var(--card-w) * 0.5);
+        margin-bottom: 40px;
+    }
+
+    .carousel3d-card img { transform: none; }
+
+    .carousel3d-caption { margin-top: 20px; }
+
+    /* ── Destacados: 2 columnas equilibradas ── */
+    .products-grid { gap: 12px; }
+
+    .products-grid > .product-card { flex: 0 1 calc(50% - 6px); }
+
+    .product-card { padding: 12px; border-radius: 1.1rem; }
+
+    .product-card .product-img-wrap { margin-bottom: 12px; border-radius: 0.75rem; }
+
+    .product-card .tag {
+        font-size: 9px;
+        padding: 3px 6px;
+        letter-spacing: 0.03em;
+    }
+
+    .product-card h3 {
+        font-size: 15px;
+        margin-top: 8px;
+    }
+
+    .product-card p.text-sm {
+        font-size: 11.5px;
+        line-height: 1.45;
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-card .product-price { font-size: 17px; }
+
+    .product-card .mb-5.mt-auto { margin-bottom: 10px; }
+
+    .product-card .btn {
+        min-height: 38px;
+        padding: 8px 6px;
+        font-size: 12px;
+        border-radius: 10px;
+    }
+
+    .product-quickview { display: none; }
+
+    /* ── Footer: 3 columnas de enlaces paralelas ── */
+    .footer-heading {
+        font-size: 10.5px;
+        margin-bottom: 12px;
+    }
+
+    .footer-links { gap: 8px; }
+
+    .footer-links a { font-size: 12px; }
+}
+
+/* ── Ingeniería de Precisión: 2 columnas en móvil ── */
+@media (max-width: 639px) {
+    .precision-lead {
+        font-size: 11.5px;
+        line-height: 1.55;
+    }
+
+    .glass-image-card {
+        padding: 6px;
+        border-radius: 1.1rem;
+    }
+
+    .glass-image-card img {
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 0.8rem;
+    }
+
+    .spec-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .spec-list li {
+        gap: 8px;
+        padding: 8px 10px;
+        font-size: 11.5px;
+        line-height: 1.35;
+        border-radius: 12px;
+    }
+
+    .spec-arrow {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+
+    .precision-max .btn {
+        padding: 10px 8px;
+        font-size: 12.5px;
+    }
 }

@@ -3,7 +3,7 @@ document.documentElement.classList.remove('no-js');
 // ── Precarga de imágenes de producto ──
 // Descarga y decodifica las 5 imágenes al entrar, para que el carrusel y las
 // tarjetas nunca se pinten vacías al deslizar.
-const PRODUCT_IMAGES = [1, 2, 3, 4, 5].map(n => `imagenes/Producto00${n}.png`);
+const PRODUCT_IMAGES = [2, 1, 3, 4, 5].map(n => `imagenes/Producto00${n}.png`);
 
 PRODUCT_IMAGES.forEach(src => {
     const img = new Image();
@@ -127,16 +127,52 @@ document.querySelectorAll('.faq-question').forEach(btn => {
     });
 })();
 
-// ── Añadir al carrito (mock) ──
-document.querySelectorAll('.btn').forEach(btn => {
-    if (btn.textContent.trim() === 'Añadir al carrito' && btn.closest('.card')) {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();  // no abrir la vista rápida
-            const productName = this.closest('.card').querySelector('h3').textContent;
-            alert(`${productName} añadido al carrito 🛒`);
-        });
+// ── Testimonios: marquee infinito ──
+// Equivale a [...testimonios, ...testimonios]: el set base se repite hasta cubrir
+// el ancho visible y luego se duplica completo, así el salto de -50% es invisible
+// y nunca aparece un hueco al final (ni en móvil ni en pantallas anchas).
+(function initMarquee() {
+    const base  = document.getElementById('marquee-base');
+    // Con movimiento reducido no hay animación: basta el set original
+    if (!base || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const track = base.parentElement;
+    const SECONDS_PER_SET = 45;
+    const originals = [...base.children];
+    let lastWidth = 0;
+
+    function cloneHidden(node) {
+        const copy = node.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        return copy;
     }
-});
+
+    function build() {
+        const width = track.parentElement.clientWidth;
+        if (width === lastWidth) return;
+        lastWidth = width;
+
+        base.replaceChildren(...originals);
+        track.querySelectorAll('.marquee-group[aria-hidden="true"]').forEach(g => g.remove());
+
+        // Repite el set dentro del grupo hasta que sea más ancho que la ventana
+        let sets = 1;
+        while (base.getBoundingClientRect().width < width && sets < 8) {
+            originals.forEach(card => base.appendChild(cloneHidden(card)));
+            sets++;
+        }
+
+        track.appendChild(cloneHidden(base));
+        track.lastElementChild.removeAttribute('id');
+        track.style.animationDuration = `${SECONDS_PER_SET * sets}s`;
+    }
+
+    build();
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(build, 150);
+    });
+})();
 
 // ── Carrusel 3D con efecto typewriter ──
 (function initCarousel3D() {
@@ -267,29 +303,8 @@ document.querySelectorAll('.btn').forEach(btn => {
 
 
 // ── Vista rápida de producto (modal) ──
-const PRODUCT_DETAILS = {
-    p1: {
-        desc: 'El ANG Aurora combina un formato 75% con una perilla multifunción y una pantalla integrada para ver hora, batería y perfiles. Sus switches silenciosos pre-lubricados y la espuma interna de cinco capas reducen el ruido sin perder precisión.',
-        specs: { 'Conectividad': 'USB-C · Bluetooth 5.1 · 2.4 GHz', 'Batería': '4000 mAh · 150 h', 'Peso': '1.05 kg', 'Material del chasis': 'Policarbonato + placa de aluminio', 'Switches': 'Silenciosos 45 g', 'Layout': '75% · 81 teclas' }
-    },
-    p2: {
-        desc: 'El ANG Crimson lleva el formato 65% al límite con keycaps PBT de grabado topográfico en negro y rojo. Switches táctiles con un bump claro en cada pulsación, ideales para escribir con ritmo.',
-        specs: { 'Conectividad': 'USB-C · Bluetooth 5.0', 'Batería': '3000 mAh · 120 h', 'Peso': '720 g', 'Material del chasis': 'Aluminio CNC anodizado', 'Switches': 'Táctiles 55 g', 'Layout': '65% · 68 teclas' }
-    },
-    p3: {
-        desc: 'El ANG Blossom es un tenkeyless con degradado rosa en keycaps doubleshot y una mini pantalla lateral. Sus switches lineales son suaves de principio a fin, para largas sesiones sin fatiga.',
-        specs: { 'Conectividad': 'USB-C · Bluetooth 5.1 · 2.4 GHz', 'Batería': '4000 mAh · 140 h', 'Peso': '980 g', 'Material del chasis': 'ABS reforzado + placa de acero', 'Switches': 'Lineales 40 g', 'Layout': 'TKL · 87 teclas' }
-    },
-    p4: {
-        desc: 'Edición especial ANG Hornet: layout 75% en español con Ñ nativa, acentos amarillos y perilla de aluminio maciza. Cada unidad está numerada y viene con un set adicional de keycaps.',
-        specs: { 'Conectividad': 'USB-C · Bluetooth 5.1 · 2.4 GHz', 'Batería': '4000 mAh · 150 h', 'Peso': '1.1 kg', 'Material del chasis': 'Aluminio 6063 anodizado', 'Switches': 'Lineales 45 g', 'Layout': '75% ES · 82 teclas' }
-    },
-    p5: {
-        desc: 'El ANG Glacier ofrece un formato 96% que conserva el numpad completo en un cuerpo compacto. Switches lineales de precisión e iluminación RGB envolvente en tonos hielo.',
-        specs: { 'Conectividad': 'USB-C · Bluetooth 5.1 · 2.4 GHz', 'Batería': '5000 mAh · 180 h', 'Peso': '1.2 kg', 'Material del chasis': 'Aluminio + base de policarbonato', 'Switches': 'Lineales 45 g', 'Layout': '96% · 100 teclas' }
-    }
-};
-
+// Lee de PRODUCTS (productos.js). Se expone como window.openProductModal(id)
+// para que el catálogo la reutilice.
 (function initProductModal() {
     const modal = document.getElementById('product-modal');
     if (!modal) return;
@@ -298,21 +313,21 @@ const PRODUCT_DETAILS = {
     const media = $('pmodal-media');
     const img   = $('pmodal-img');
     let lastFocus = null;
-    let currentName = '';
+    let currentId = null;
 
-    function open(card) {
-        const data = PRODUCT_DETAILS[card.dataset.product];
-        const tag  = card.querySelector('.tag');
-        currentName = card.querySelector('h3').textContent;
+    function open(id) {
+        const product = getProduct(id);
+        if (!product) return;
+        currentId = id;
 
-        img.src = card.querySelector('img').src;
-        img.alt = currentName;
-        $('pmodal-tag').className   = tag.className;
-        $('pmodal-tag').textContent = tag.textContent;
-        $('pmodal-name').textContent  = currentName;
-        $('pmodal-price').textContent = card.querySelector('.product-price').textContent;
-        $('pmodal-desc').textContent  = data.desc;
-        $('pmodal-specs').innerHTML = Object.entries(data.specs)
+        img.src = product.img;
+        img.alt = product.name;
+        $('pmodal-tag').className   = `tag ${product.tag.cls}`.trim();
+        $('pmodal-tag').textContent = product.tag.label;
+        $('pmodal-name').textContent  = product.name;
+        $('pmodal-price').textContent = formatPrice(product.price);
+        $('pmodal-desc').textContent  = product.desc;
+        $('pmodal-specs').innerHTML = Object.entries(product.specs)
             .map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
 
         setZoom(false);
@@ -323,11 +338,11 @@ const PRODUCT_DETAILS = {
         $('pmodal-close').focus();
     }
 
-    function close() {
+    function close({ restoreFocus = true } = {}) {
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('modal-open');
-        if (lastFocus) lastFocus.focus();
+        if (restoreFocus && lastFocus) lastFocus.focus();
     }
 
     // Zoom: clic para ampliar, el punto de zoom sigue al cursor
@@ -353,24 +368,30 @@ const PRODUCT_DETAILS = {
         if (media.classList.contains('zoomed')) moveZoom(e);
     });
 
+    // Tarjetas destacadas de la portada
     document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', () => open(card));
+        card.addEventListener('click', e => {
+            if (e.target.closest('button')) return;  // el botón de bolsa tiene su propia acción
+            open(card.dataset.product);
+        });
         card.addEventListener('keydown', e => {
             if (e.target === card && (e.key === 'Enter' || e.key === ' ')) {
                 e.preventDefault();
-                open(card);
+                open(card.dataset.product);
             }
         });
     });
 
-    modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', close));
+    modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => close()));
 
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && modal.classList.contains('open')) close();
     });
 
     $('pmodal-cta').addEventListener('click', () => {
-        alert(`${currentName} añadido al carrito 🛒`);
-        close();
+        close({ restoreFocus: false });
+        Bag.add(currentId);
     });
+
+    window.openProductModal = open;
 })();

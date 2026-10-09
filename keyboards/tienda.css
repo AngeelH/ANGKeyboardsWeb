@@ -1,0 +1,983 @@
+/* =============================================
+   TIENDA: vistas, catálogo y bolsa
+   ============================================= */
+
+/* ── Transición entre vistas ── */
+.app-view[hidden] { display: none; }
+
+.app-view.view-enter { animation: viewEnter 450ms cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* Las anclas (#faq, #experiencia…) no quedan bajo el navbar fijo */
+.app-view section[id] { scroll-margin-top: 66px; }
+
+@keyframes viewEnter {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* Enlace "Ver catálogo completo" en la portada */
+.catalog-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111111;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    transition: background 200ms ease, border-color 200ms ease, gap 200ms ease;
+}
+
+.catalog-link:hover {
+    gap: 12px;
+    background: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+/* ── Catálogo ── */
+.catalog-view {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse 50% 40% at 85% 5%, rgba(17, 17, 17, 0.06), transparent 70%),
+        radial-gradient(ellipse 45% 40% at 5% 60%, rgba(17, 17, 17, 0.05), transparent 70%),
+        #F7F7F6;
+}
+
+.catalog-max { max-width: 1240px; }
+
+.catalog-hero { padding-top: 40px; padding-bottom: 24px; }
+
+@media (min-width: 768px) {
+    .catalog-hero { padding-top: 56px; padding-bottom: 28px; }
+}
+
+.catalog-breadcrumb {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: #8A8A8A;
+}
+
+.catalog-breadcrumb a { transition: color 200ms ease; }
+.catalog-breadcrumb a:hover { color: #111111; }
+.catalog-breadcrumb [aria-current] { color: #111111; font-weight: 500; }
+
+.catalog-title {
+    font-size: 2.6rem;
+    margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+    .catalog-title { font-size: 3.6rem; }
+}
+
+.catalog-subtitle {
+    margin-top: 8px;
+    max-width: 520px;
+    font-size: 0.95rem;
+    color: #6B6B6B;
+}
+
+/* Barra flotante (pegada bajo el navbar) */
+.catalog-toolbar-wrap {
+    position: sticky;
+    top: 76px;
+    z-index: 40;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.catalog-toolbar {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 1.25rem;
+}
+
+/* El vidrio va en una capa aparte: si la barra tuviera backdrop-filter propio,
+   el menú desplegable (hijo suyo) no podría desenfocar lo que hay debajo. */
+.catalog-toolbar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.6));
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.95) inset,
+        0 16px 36px -22px rgba(0, 0, 0, 0.3);
+}
+
+.catalog-search {
+    flex: 1 1 220px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.catalog-search svg {
+    position: absolute;
+    left: 14px;
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: #6B6B6B;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    pointer-events: none;
+}
+
+.catalog-search input {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px 0 40px;
+    font: inherit;
+    font-size: 14px;
+    color: #111111;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    outline: none;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.catalog-search input::placeholder { color: #A3A3A3; }
+
+.catalog-search input:focus {
+    border-color: rgba(0, 0, 0, 0.45);
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06);
+}
+
+.catalog-chips {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.chip {
+    height: 36px;
+    padding: 0 15px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #3A3A3A;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.chip:hover { border-color: rgba(0, 0, 0, 0.3); background: #FFFFFF; }
+
+.chip.active {
+    color: #FFFFFF;
+    background: #111111;
+    border-color: #111111;
+}
+
+.chip-sm { height: 32px; padding: 0 12px; font-size: 12.5px; }
+
+.catalog-switch {
+    padding-left: 10px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.catalog-switch-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8A8A8A;
+    margin-right: 2px;
+}
+
+.catalog-sort {
+    position: relative;
+    margin-left: auto;
+}
+
+/* Dropdown personalizado (reemplaza al <select> nativo) */
+.dropdown { position: relative; }
+
+.dropdown-trigger {
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px 0 16px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111111;
+    white-space: nowrap;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: border-color 200ms ease, background 200ms ease;
+}
+
+.dropdown-trigger:hover { background: #FFFFFF; border-color: rgba(0, 0, 0, 0.3); }
+
+.dropdown-trigger:focus-visible,
+.dropdown.open .dropdown-trigger {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.45);
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06);
+}
+
+.dropdown-trigger svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 250ms ease;
+}
+
+.dropdown.open .dropdown-trigger svg { transform: rotate(180deg); }
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 50;
+    min-width: 100%;
+    width: max-content;
+    padding: 6px;
+    border-radius: 1rem;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(248, 248, 248, 0.9));
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 1) inset,
+        0 24px 50px -16px rgba(0, 0, 0, 0.32);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px) scale(0.97);
+    transform-origin: top right;
+    transition: opacity 200ms ease, transform 250ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 250ms;
+    outline: none;
+}
+
+.dropdown.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 200ms ease, transform 250ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s;
+}
+
+.dropdown-menu [role="option"] {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px 36px 10px 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #3A3A3A;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+}
+
+.dropdown-menu [role="option"].is-active {
+    background: rgba(0, 0, 0, 0.06);
+    color: #111111;
+}
+
+.dropdown-menu [aria-selected="true"] {
+    font-weight: 600;
+    color: #111111;
+}
+
+/* Check del elemento seleccionado */
+.dropdown-menu [aria-selected="true"]::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 9px;
+    height: 5px;
+    border-left: 1.8px solid #111111;
+    border-bottom: 1.8px solid #111111;
+    transform: translateY(-70%) rotate(-45deg);
+}
+
+@media (max-width: 767px) {
+    /* En móvil la barra ocupa mucho alto: no se queda fija al hacer scroll */
+    .catalog-toolbar-wrap { position: relative; }  /* mantiene z-index: el menú de orden queda sobre las tarjetas */
+    .catalog-search { flex-basis: 100%; }
+    .catalog-chips:not(.catalog-switch) { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .catalog-switch { padding-left: 0; border-left: none; }
+    .catalog-sort { margin-left: 0; flex: 1 1 100%; }
+    .catalog-sort .dropdown-trigger { width: 100%; justify-content: space-between; }
+    .catalog-sort .dropdown-menu { left: 0; right: 0; width: auto; }
+}
+
+/* Resultados */
+.catalog-results { padding-top: 20px; padding-bottom: 96px; }
+
+.catalog-count {
+    font-size: 13px;
+    color: #8A8A8A;
+    margin-bottom: 16px;
+}
+
+/* 4 columnas × 2 filas en escritorio */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+
+@media (min-width: 560px)  { .catalog-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px)  { .catalog-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+@media (min-width: 1180px) { .catalog-grid { grid-template-columns: repeat(4, 1fr); gap: 22px; } }
+
+.cat-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.6));
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset;
+    cursor: pointer;
+    animation: viewEnter 450ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: translate 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, border-color 300ms ease;
+}
+
+.cat-card:hover {
+    translate: 0 -5px;
+    border-color: rgba(0, 0, 0, 0.35);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.95) inset,
+        0 26px 46px -22px rgba(0, 0, 0, 0.3);
+}
+
+.cat-media {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+    border: none;
+    background: #FFFFFF;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.cat-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cat-card:hover .cat-media img { transform: scale(1.05); }
+
+.cat-stock {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #111111;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.cat-stock::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #22A06B;
+}
+
+.cat-stock.pocos::before { background: #F59E0B; }
+.cat-stock.soon::before  { background: #A3A3A3; }
+
+.cat-quick {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #FFFFFF;
+    border-radius: 9999px;
+    background: rgba(17, 17, 17, 0.75);
+    opacity: 0;
+    transform: translate(-50%, 6px);
+    transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.cat-card:hover .cat-quick,
+.cat-media:focus-visible .cat-quick {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.cat-media:focus-visible {
+    outline: 2px solid #111111;
+    outline-offset: -2px;
+}
+
+.cat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 20px 20px;
+}
+
+.cat-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.cat-layout {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8A8A8A;
+}
+
+.cat-name {
+    margin-top: 12px;
+    font-size: 1.35rem;
+}
+
+.cat-short {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #6B6B6B;
+}
+
+.cat-foot {
+    margin-top: auto;
+    padding-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cat-price {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #111111;
+}
+
+.cat-price-muted {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #8A8A8A;
+}
+
+.cat-add,
+.cat-reserve {
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: translate 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+.cat-add {
+    color: #FFFFFF;
+    border: none;
+    background: linear-gradient(180deg, #2A2A2A 0%, #0A0A0A 100%);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.18) inset,
+        0 6px 14px -8px rgba(0, 0, 0, 0.5);
+}
+
+.cat-add:hover { translate: 0 -1px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18) inset, 0 10px 18px -8px rgba(0, 0, 0, 0.55); }
+
+.cat-add svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Slots "Próximo drop" */
+.cat-drop { cursor: default; }
+
+.cat-drop-media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: default;
+    background:
+        repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.025) 0 10px, transparent 10px 20px),
+        linear-gradient(160deg, #F4F4F4, #FBFBFB);
+}
+
+.cat-drop-art {
+    width: 88px;
+    fill: none;
+    stroke: #111111;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.3;
+}
+
+.cat-drop-art .faint { opacity: 0.5; }
+
+.cat-drop-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8A8A8A;
+}
+
+.cat-tag-neutral { background: rgba(0, 0, 0, 0.06); color: #3A3A3A; }
+
+.cat-reserve {
+    color: #111111;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.22);
+}
+
+.cat-reserve:hover { background: #FFFFFF; border-color: rgba(0, 0, 0, 0.4); }
+
+.cat-reserve.done {
+    color: #FFFFFF;
+    background: #111111;
+    border-color: #111111;
+}
+
+.catalog-empty {
+    padding: 56px 24px;
+    text-align: center;
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+}
+
+.catalog-empty-title { font-weight: 600; color: #111111; }
+
+/* ── Contador en el ícono de la bolsa ── */
+.bag-count {
+    position: absolute;
+    top: 3px;
+    right: 1px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    color: #FFFFFF;
+    background: #111111;
+    border-radius: 9999px;
+    border: 2px solid #FFFFFF;
+    box-sizing: content-box;
+}
+
+.bag-count[hidden] { display: none; }
+
+.bag-count.bump { animation: bagBump 450ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+@keyframes bagBump {
+    0%   { transform: scale(0.6); }
+    100% { transform: scale(1); }
+}
+
+/* ── Bolsa (slide-over) ── */
+.bag {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear 400ms;
+}
+
+.bag.open {
+    visibility: visible;
+    pointer-events: auto;
+    transition: visibility 0s;
+}
+
+.bag-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    transition: opacity 350ms ease;
+}
+
+.bag.open .bag-backdrop { opacity: 1; }
+
+.bag-panel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    width: min(420px, calc(100vw - 20px));
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.5rem;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.94), rgba(250, 250, 250, 0.86));
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    border: 1px solid rgba(0, 0, 0, 0.18);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 1) inset,
+        0 30px 80px -20px rgba(0, 0, 0, 0.45);
+    transform: translateX(calc(100% + 24px));
+    transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bag.open .bag-panel { transform: none; }
+
+.bag-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 22px 22px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.bag-title { font-size: 1.8rem; }
+
+.bag-subtitle {
+    font-size: 13px;
+    color: #8A8A8A;
+    margin-top: 2px;
+}
+
+.bag-close { position: static; flex-shrink: 0; }
+
+.bag-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 14px;
+}
+
+.bag-items[hidden] { display: none; }
+
+.bag-item {
+    display: grid;
+    grid-template-columns: 76px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 8px;
+    border-radius: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.bag-item:last-child { border-bottom: none; }
+
+.bag-item.flash { animation: bagFlash 1.2s ease; }
+
+@keyframes bagFlash {
+    0%, 30% { background: rgba(0, 0, 0, 0.06); }
+    100%    { background: transparent; }
+}
+
+.bag-thumb {
+    width: 76px;
+    height: 60px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.bag-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.bag-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111111;
+}
+
+.bag-meta {
+    font-size: 12px;
+    color: #8A8A8A;
+    margin-top: 1px;
+}
+
+.bag-qty {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 8px;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.bag-qty button {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 1;
+    color: #111111;
+    background: none;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 150ms ease;
+}
+
+.bag-qty button:hover:not(:disabled) { background: rgba(0, 0, 0, 0.06); }
+.bag-qty button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.bag-qty span {
+    min-width: 22px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.bag-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.bag-line {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111111;
+    white-space: nowrap;
+}
+
+.bag-remove {
+    font: inherit;
+    font-size: 12px;
+    color: #8A8A8A;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.bag-remove:hover { color: #111111; }
+
+.bag-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 24px;
+    text-align: center;
+}
+
+.bag-empty[hidden] { display: none; }
+
+.bag-empty svg {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 8px;
+    fill: none;
+    stroke: #111111;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.35;
+}
+
+.bag-footer {
+    padding: 16px 22px 22px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.bag-footer[hidden] { display: none; }
+
+.bag-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    color: #111111;
+}
+
+.bag-row-muted {
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #8A8A8A;
+}
+
+.bag-subtotal { font-size: 1.2rem; font-weight: 700; }
+
+.bag-checkout {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 16px;
+    border-radius: 14px;
+    font-size: 15px;
+}
+
+.bag-continue {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #3A3A3A;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.bag-continue:hover { color: #111111; }
+
+/* ── Aviso flotante ── */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 130;
+    max-width: calc(100vw - 32px);
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    border-radius: 9999px;
+    background: rgba(17, 17, 17, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: translate(-50%, 16px);
+    pointer-events: none;
+    transition: opacity 300ms ease, transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* =============================================
+   AJUSTES MÓVILES DEL CATÁLOGO (solo < 560px)
+   ============================================= */
+
+@media (max-width: 639px) {
+    #view-catalog {
+        max-width: 100%;
+        overflow-x: clip;
+    }
+}
+
+@media (max-width: 559px) {
+    .catalog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .cat-card { border-radius: 1.1rem; }
+
+    .cat-stock {
+        top: 8px;
+        left: 8px;
+        padding: 3px 7px;
+        gap: 4px;
+        font-size: 9.5px;
+    }
+
+    .cat-stock::before { width: 5px; height: 5px; }
+
+    .cat-quick { display: none; }
+
+    .cat-body { padding: 12px 12px 14px; }
+
+    .cat-meta { gap: 4px 6px; flex-wrap: wrap; }
+
+    .cat-meta .tag {
+        font-size: 9px;
+        padding: 3px 6px;
+        letter-spacing: 0.03em;
+    }
+
+    .cat-layout { font-size: 10.5px; flex-shrink: 0; }
+
+    .cat-name {
+        margin-top: 8px;
+        font-size: 1.05rem;
+    }
+
+    .cat-short {
+        font-size: 11.5px;
+        line-height: 1.45;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .cat-foot { padding-top: 12px; gap: 8px; }
+
+    .cat-price { font-size: 1.05rem; }
+
+    .cat-price-muted { font-size: 11.5px; }
+
+    .cat-add,
+    .cat-reserve {
+        height: 36px;
+        font-size: 12.5px;
+        gap: 6px;
+    }
+
+    .cat-add svg { width: 15px; height: 15px; }
+
+    .cat-add-long { display: none; }
+
+    .cat-drop-art { width: 56px; }
+
+    .cat-drop-label { font-size: 9.5px; }
+}
