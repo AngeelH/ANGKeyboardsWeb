@@ -157,11 +157,20 @@ const Bag = (() => {
         if (e.key === 'Escape' && root.classList.contains('open')) close();
     });
 
-    $id('bag-checkout').addEventListener('click', () => toast('El checkout estará disponible muy pronto.'));
+    function clear() {
+        items = [];
+        commit();
+    }
+
+    // Checkout vive en checkout.js (se carga después; existe al hacer clic)
+    $id('bag-checkout').addEventListener('click', () => {
+        close();
+        Checkout.open();
+    });
     $id('nav-cart').addEventListener('click', open);
 
     render();
-    return { add, open, close };
+    return { add, open, close, clear, count, total, items: () => items.map(i => ({ ...i })) };
 })();
 
 // Cualquier botón con data-add-to-bag (portada, catálogo) añade a la bolsa

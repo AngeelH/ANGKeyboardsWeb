@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANG Shop – Teclados Mecánicos Minimalistas</title>
+    <!-- Tema guardado (Mi Cuenta → Apariencia): se aplica antes de pintar para evitar el destello claro -->
+    <script>
+        try {
+            if (JSON.parse(localStorage.getItem('ang-tema')) === 'oscuro') document.documentElement.classList.add('dark');
+        } catch (e) { /* sin almacenamiento: tema claro */ }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/phosphor-icons@1.4.2/src/bold/style.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="tienda.css">
+    <link rel="stylesheet" href="checkout.css">
+    <link rel="stylesheet" href="cuenta.css">
+    <link rel="stylesheet" href="tema.css">
     <link rel="preload" as="image" href="imagenes/Producto002.png">
     <link rel="preload" as="image" href="imagenes/Producto001.png">
     <link rel="preload" as="image" href="imagenes/Producto003.png">
@@ -85,34 +94,36 @@
         <div class="ambient-blob blob-1"></div>
 
         <!-- ===== CARRUSEL 3D ===== -->
+        <!-- Ocupa todo el viewport. data-glow: colores del teclado para el halo de fondo -->
         <div class="carousel3d relative z-10" id="carousel3d" aria-roledescription="carrusel" aria-label="Colección de teclados">
             <div class="carousel3d-stage" id="carousel3d-stage">
-                <div class="carousel3d-card" data-name="ANG Crimson" data-desc="Compacto 65% con keycaps de grabado topográfico negro y rojo. Carácter puro en poco espacio.">
+                <div class="carousel3d-card" data-name="ANG Crimson" data-glow="#E5383B,#7A1418" data-desc="Compacto 65% con keycaps de grabado topográfico negro y rojo. Carácter puro en poco espacio.">
                     <img src="imagenes/Producto002.png" alt="ANG Crimson – teclado 65% negro y rojo" draggable="false" loading="eager" fetchpriority="high" decoding="async" />
                 </div>
-                <div class="carousel3d-card" data-name="ANG Aurora" data-desc="Formato 75% con perilla y pantalla integrada. Keycaps blancos y lavanda con retroiluminación RGB.">
+                <div class="carousel3d-card" data-name="ANG Aurora" data-glow="#A995F2,#6FD3E8" data-desc="Formato 75% con perilla y pantalla integrada. Keycaps blancos y lavanda con retroiluminación RGB.">
                     <img src="imagenes/Producto001.png" alt="ANG Aurora – teclado 75% blanco y lavanda" draggable="false" loading="eager" decoding="async" />
                 </div>
-                <div class="carousel3d-card" data-name="ANG Blossom" data-desc="Tenkeyless con degradado rosa y pantalla lateral. Suave al tacto, silencioso al teclear.">
+                <div class="carousel3d-card" data-name="ANG Blossom" data-glow="#F58FB0,#FBC4D4" data-desc="Tenkeyless con degradado rosa y pantalla lateral. Suave al tacto, silencioso al teclear.">
                     <img src="imagenes/Producto003.png" alt="ANG Blossom – teclado TKL rosa" draggable="false" loading="eager" decoding="async" />
                 </div>
-                <div class="carousel3d-card" data-name="ANG Hornet" data-desc="Layout 75% en español con acentos amarillos y perilla de aluminio. Hecho para rendir.">
+                <div class="carousel3d-card" data-name="ANG Hornet" data-glow="#F7B916,#3B3F8F" data-desc="Layout 75% en español con acentos amarillos y perilla de aluminio. Hecho para rendir.">
                     <img src="imagenes/Producto004.png" alt="ANG Hornet – teclado 75% negro y amarillo" draggable="false" loading="eager" decoding="async" />
                 </div>
-                <div class="carousel3d-card" data-name="ANG Glacier" data-desc="Formato 96% con numpad completo. Tonos hielo y blanco bajo una luz RGB envolvente.">
+                <div class="carousel3d-card" data-name="ANG Glacier" data-glow="#6EC6F2,#B8A6F5" data-desc="Formato 96% con numpad completo. Tonos hielo y blanco bajo una luz RGB envolvente.">
                     <img src="imagenes/Producto005.png" alt="ANG Glacier – teclado 96% celeste y blanco" draggable="false" loading="eager" decoding="async" />
                 </div>
             </div>
 
-            <button class="carousel3d-arrow prev" id="carousel3d-prev" aria-label="Teclado anterior">‹</button>
-            <button class="carousel3d-arrow next" id="carousel3d-next" aria-label="Teclado siguiente">›</button>
-
             <div class="carousel3d-caption px-4" aria-live="polite">
                 <h2 class="carousel3d-name"><span id="carousel3d-name"></span></h2>
-                <p class="carousel3d-desc text-secondary"><span id="carousel3d-desc"></span><span class="type-caret" aria-hidden="true"></span></p>
+                <p class="carousel3d-desc"><span id="carousel3d-desc"></span><span class="type-caret" aria-hidden="true"></span></p>
             </div>
 
-            <div class="carousel3d-dots" id="carousel3d-dots"></div>
+            <div class="carousel3d-controls">
+                <button class="carousel3d-arrow" id="carousel3d-prev" aria-label="Teclado anterior">‹</button>
+                <div class="carousel3d-dots" id="carousel3d-dots"></div>
+                <button class="carousel3d-arrow" id="carousel3d-next" aria-label="Teclado siguiente">›</button>
+            </div>
         </div>
 
         <div class="content-max relative z-10 px-4 sm:px-6">
@@ -129,9 +140,12 @@
 
         <!-- Arquitectura: imagen + texto -->
         <div class="precision-max relative z-10 mx-auto px-4 sm:px-6 mt-12 sm:mt-16">
-            <!-- Móvil: imagen | primer párrafo en 2 columnas; el resto debajo a todo el ancho.
+            <!-- Móvil: imagen | frase en 2 columnas; el resto debajo a todo el ancho.
                  Desktop (lg): imagen a la izquierda (2 filas) y todo el texto a la derecha. -->
             <div class="grid grid-cols-2 lg:grid-cols-12 gap-x-3 gap-y-5 sm:gap-x-8 sm:gap-y-8 lg:gap-x-12 lg:gap-y-0 items-center text-left">
+
+                <!-- Halo traslúcido detrás del texto y las métricas (da contraste al cristal) -->
+                <div class="precision-glow" aria-hidden="true"></div>
 
                 <!-- Imagen glass -->
                 <div class="lg:col-span-7 lg:row-span-2 fade-in-on-scroll" style="animation-delay: 240ms">
@@ -146,25 +160,35 @@
 
                 <!-- Texto (1/2): junto a la imagen en móvil -->
                 <div class="lg:col-span-5 lg:self-end fade-in-on-scroll" style="animation-delay: 320ms">
-                    <p class="precision-lead text-secondary lg:mb-4 leading-relaxed sm:text-base">
-                        Cada teclado ANG Shop es el resultado de años de investigación en diseño mecánico. Nuestros switches están calibrados al milímetro, cada resorte tensionado con precisión óptica, cada contacto de latón chapado en oro para durabilidad extrema.
+                    <p class="precision-lead lg:mb-6">
+                        Ingeniería mecánica de precisión industrial. Cada componente es calibrado a mano para garantizar cero defectos y una respuesta acústica perfecta.
                     </p>
                 </div>
 
-                <!-- Texto (2/2): especificaciones y botones -->
+                <!-- Texto (2/2): métricas, puntos clave y botón -->
                 <div class="col-span-2 lg:col-span-5 lg:col-start-8 lg:self-start fade-in-on-scroll" style="animation-delay: 360ms">
-                    <p class="text-secondary mb-6 leading-relaxed text-[13px] sm:text-base">
-                        El proceso de ensamble es completamente manual. Nuestros técnicos prueban cada unidad durante 48 horas antes del envío, validando latencia, respuesta y sonido. Cero compromiso. Cero defectos aceptados.
-                    </p>
+                    <dl class="precision-stats">
+                        <div class="precision-stat">
+                            <dt>Test y calibración</dt>
+                            <dd>48h</dd>
+                        </div>
+                        <div class="precision-stat">
+                            <dt>Latencia ultra baja</dt>
+                            <dd>0.1ms</dd>
+                        </div>
+                        <div class="precision-stat">
+                            <dt>Contactos en oro</dt>
+                            <dd>24k</dd>
+                        </div>
+                    </dl>
                     <ul class="spec-list">
                         <li><span class="spec-arrow">→</span><span>Switches Cherry MX grado industrial</span></li>
                         <li><span class="spec-arrow">→</span><span>Estabilizadores Durock de precisión láser</span></li>
                         <li><span class="spec-arrow">→</span><span>Contactos de latón chapado en oro 24k</span></li>
                         <li><span class="spec-arrow">→</span><span>PCB dampening reforzado con espuma de aviación</span></li>
                     </ul>
-                    <div class="mt-6 sm:mt-8 grid grid-cols-2 sm:flex sm:flex-row gap-3">
+                    <div class="mt-6 sm:mt-8">
                         <a href="#/productos" class="btn w-full sm:w-auto">Explorar colección</a>
-                        <button class="btn btn-secondary w-full sm:w-auto">Ver especificaciones</button>
                     </div>
                 </div>
             </div>
@@ -731,12 +755,447 @@
                 </div>
                 <div class="bag-row bag-row-muted">
                     <span>Envío</span>
-                    <span>Gratis</span>
+                    <span>Se calcula en el checkout</span>
                 </div>
                 <button type="button" class="btn bag-checkout" id="bag-checkout">Ir al checkout</button>
                 <button type="button" class="bag-continue" data-bag-close>Seguir comprando</button>
             </footer>
         </aside>
+    </div>
+
+    <!-- ===== CHECKOUT (MODAL EN 3 PASOS) ===== -->
+    <div class="checkout" id="checkout" aria-hidden="true">
+        <div class="checkout-backdrop" data-checkout-close></div>
+        <div class="checkout-window" id="checkout-window" role="dialog" aria-modal="true" aria-labelledby="checkout-title" tabindex="-1">
+            <header class="checkout-header">
+                <div class="checkout-heading">
+                    <h2 class="checkout-title" id="checkout-title">Finalizar compra</h2>
+                    <button type="button" class="pmodal-close bag-close" aria-label="Cerrar checkout" data-checkout-close>&times;</button>
+                </div>
+                <ol class="ck-steps" aria-label="Progreso de la compra">
+                    <li data-step="1"><span class="ck-step-num">1</span><span class="ck-step-label">Envío</span></li>
+                    <li data-step="2"><span class="ck-step-num">2</span><span class="ck-step-label">Pago</span></li>
+                    <li data-step="3"><span class="ck-step-num">3</span><span class="ck-step-label">Confirmación</span></li>
+                </ol>
+            </header>
+
+            <!-- Paso 1: datos de envío -->
+            <form class="ck-step" id="checkout-shipping" data-step-panel="1" novalidate>
+                <div class="ck-scroll">
+                    <div class="ck-fields">
+                        <label class="ck-field ck-field-full">
+                            <span class="ck-label">Nombre completo</span>
+                            <input class="ck-input" type="text" name="name" autocomplete="name" />
+                            <span class="ck-error"></span>
+                        </label>
+                        <label class="ck-field">
+                            <span class="ck-label">Teléfono</span>
+                            <input class="ck-input" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="987 654 321" />
+                            <span class="ck-error"></span>
+                        </label>
+                        <label class="ck-field">
+                            <span class="ck-label">DNI / CE</span>
+                            <input class="ck-input" type="text" name="doc" autocomplete="off" maxlength="12" />
+                            <span class="ck-error"></span>
+                        </label>
+                        <label class="ck-field ck-field-full">
+                            <span class="ck-label">Correo electrónico</span>
+                            <input class="ck-input" type="email" name="email" autocomplete="email" placeholder="tu@correo.com" />
+                            <span class="ck-error"></span>
+                        </label>
+
+                        <fieldset class="ck-field-full">
+                            <legend class="ck-label">Ubicación</legend>
+                            <div class="ck-options ck-options-2">
+                                <label class="ck-option">
+                                    <input class="sr-only" type="radio" name="zone" value="lima" checked />
+                                    <span class="ck-radio" aria-hidden="true"></span>
+                                    <span class="ck-option-main">
+                                        <span class="ck-option-title">Lima Metropolitana</span>
+                                        <span class="ck-option-sub">Envío gratis · S/ 0</span>
+                                    </span>
+                                </label>
+                                <label class="ck-option">
+                                    <input class="sr-only" type="radio" name="zone" value="provincias" />
+                                    <span class="ck-radio" aria-hidden="true"></span>
+                                    <span class="ck-option-main">
+                                        <span class="ck-option-title">Provincias</span>
+                                        <span class="ck-option-sub">Envío · S/ 15</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <label class="ck-field ck-field-full">
+                            <span class="ck-label">Dirección de entrega</span>
+                            <input class="ck-input" type="text" name="address" autocomplete="street-address" placeholder="Calle, número, distrito" />
+                            <span class="ck-error"></span>
+                        </label>
+                        <label class="ck-field ck-field-full">
+                            <span class="ck-label">Referencia <span class="ck-optional">(opcional)</span></span>
+                            <input class="ck-input" type="text" name="reference" autocomplete="off" placeholder="Frente al parque, piso 3…" />
+                        </label>
+                    </div>
+                </div>
+                <footer class="ck-footer">
+                    <div class="ck-row ck-row-sub"><span>Subtotal</span><span data-ck="subtotal"></span></div>
+                    <div class="ck-row"><span>Envío</span><span data-ck="shipping"></span></div>
+                    <div class="ck-row ck-row-total"><span>Total</span><span data-ck="total"></span></div>
+                    <div class="ck-actions">
+                        <button type="submit" class="btn ck-submit">Continuar al Pago</button>
+                    </div>
+                </footer>
+            </form>
+
+            <!-- Paso 2: método de pago -->
+            <form class="ck-step" id="checkout-payment" data-step-panel="2" novalidate hidden>
+                <div class="ck-scroll">
+                    <fieldset>
+                        <legend class="ck-label">Método de pago</legend>
+                        <div class="ck-options">
+                            <label class="ck-option">
+                                <input class="sr-only" type="radio" name="method" value="yape" checked />
+                                <span class="ck-radio" aria-hidden="true"></span>
+                                <span class="ck-option-main"><span class="ck-option-title">Yape / Plin</span></span>
+                                <span class="ck-logos">
+                                    <img class="h-5 w-auto rounded" src="imagenes/pagos/yape-app-seeklogo.png" alt="Yape" />
+                                    <img class="h-5 w-auto" src="imagenes/pagos/plin-seeklogo.png" alt="Plin" />
+                                </span>
+                            </label>
+                            <label class="ck-option">
+                                <input class="sr-only" type="radio" name="method" value="card" />
+                                <span class="ck-radio" aria-hidden="true"></span>
+                                <span class="ck-option-main"><span class="ck-option-title">Tarjeta de crédito / débito</span></span>
+                                <span class="ck-logos">
+                                    <img class="h-5 w-auto rounded-sm" src="imagenes/pagos/visa-seeklogo.png" alt="Visa" />
+                                </span>
+                            </label>
+                            <label class="ck-option">
+                                <input class="sr-only" type="radio" name="method" value="transfer" />
+                                <span class="ck-radio" aria-hidden="true"></span>
+                                <span class="ck-option-main"><span class="ck-option-title">Transferencia bancaria</span></span>
+                                <span class="ck-logos">
+                                    <svg class="ck-bank-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5" /><path d="M5 10v7M9.5 10v7M14.5 10v7M19 10v7" /><path d="M3.5 20h17" /></svg>
+                                </span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Yape / Plin -->
+                    <div class="ck-panel ck-panel-qr" data-panel="yape">
+                        <div class="ck-qr" id="checkout-qr"></div>
+                        <p class="ck-qr-caption">QR de demostración</p>
+                        <p class="ck-amount" data-ck="total"></p>
+                        <p class="ck-hint">Escanea el código desde Yape o Plin y registra tu número de operación.</p>
+                        <label class="ck-field">
+                            <span class="ck-label">Número de operación</span>
+                            <input class="ck-input" type="text" name="operation" inputmode="numeric" autocomplete="off" placeholder="Ej. 12345678" />
+                            <span class="ck-error"></span>
+                        </label>
+                    </div>
+
+                    <!-- Tarjeta -->
+                    <div class="ck-panel" data-panel="card" hidden>
+                        <div class="ck-fields">
+                            <label class="ck-field ck-field-full">
+                                <span class="ck-label">Número de tarjeta</span>
+                                <input class="ck-input" type="text" name="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field">
+                                <span class="ck-label">Fecha de expiración</span>
+                                <input class="ck-input" type="text" name="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field">
+                                <span class="ck-label">CVC</span>
+                                <input class="ck-input" type="text" name="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field ck-field-full">
+                                <span class="ck-label">Nombre del titular</span>
+                                <input class="ck-input" type="text" name="cardName" autocomplete="cc-name" placeholder="Como figura en la tarjeta" />
+                                <span class="ck-error"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Transferencia -->
+                    <div class="ck-panel" data-panel="transfer" hidden>
+                        <ul class="ck-accounts">
+                            <li class="ck-account">
+                                <p class="ck-account-bank">BCP <span>Cuenta corriente · Soles</span></p>
+                                <div class="ck-account-line">
+                                    <span class="ck-account-key">Cuenta</span>
+                                    <span class="ck-account-num">191-0000000-0-00</span>
+                                    <button type="button" class="ck-copy" data-copy="1910000000000">Copiar</button>
+                                </div>
+                                <div class="ck-account-line">
+                                    <span class="ck-account-key">CCI</span>
+                                    <span class="ck-account-num">002-191-000000000000-00</span>
+                                    <button type="button" class="ck-copy" data-copy="00219100000000000000">Copiar</button>
+                                </div>
+                            </li>
+                            <li class="ck-account">
+                                <p class="ck-account-bank">Interbank <span>Cuenta de ahorros · Soles</span></p>
+                                <div class="ck-account-line">
+                                    <span class="ck-account-key">Cuenta</span>
+                                    <span class="ck-account-num">200-3000000000</span>
+                                    <button type="button" class="ck-copy" data-copy="2003000000000">Copiar</button>
+                                </div>
+                                <div class="ck-account-line">
+                                    <span class="ck-account-key">CCI</span>
+                                    <span class="ck-account-num">003-200-003000000000-00</span>
+                                    <button type="button" class="ck-copy" data-copy="00320000300000000000">Copiar</button>
+                                </div>
+                            </li>
+                        </ul>
+                        <p class="ck-hint">Titular: ANG Shop. Transfiere <strong data-ck="total"></strong> y conserva tu constancia. Cuentas de demostración.</p>
+                    </div>
+                </div>
+                <footer class="ck-footer">
+                    <div class="ck-row ck-row-sub"><span>Subtotal</span><span data-ck="subtotal"></span></div>
+                    <div class="ck-row"><span>Envío</span><span data-ck="shipping"></span></div>
+                    <div class="ck-row ck-row-total"><span>Total</span><span data-ck="total"></span></div>
+                    <div class="ck-actions">
+                        <button type="button" class="ck-back" id="checkout-back">Volver</button>
+                        <button type="submit" class="btn ck-submit" id="checkout-pay">Confirmar y Pagar</button>
+                    </div>
+                </footer>
+            </form>
+
+            <!-- Paso 3: confirmación -->
+            <section class="ck-step" data-step-panel="3" hidden>
+                <div class="ck-scroll">
+                    <div class="ck-success">
+                        <svg class="ck-check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" /><path d="M15 27l7.5 7.5L37.5 19" /></svg>
+                        <h3 class="ck-success-title">¡Gracias por tu compra en ANG Shop!</h3>
+                        <p class="ck-success-text">Hemos recibido tu pedido. Guarda tu código de orden:</p>
+                        <p class="ck-code" id="checkout-code"></p>
+                    </div>
+
+                    <div class="ck-card">
+                        <h4 class="ck-card-title">Artículos</h4>
+                        <ul class="ck-items" id="checkout-items"></ul>
+                        <div class="ck-row"><span>Envío</span><span id="checkout-paid-shipping"></span></div>
+                        <div class="ck-row ck-row-total"><span>Total</span><span id="checkout-paid-total"></span></div>
+                    </div>
+
+                    <div class="ck-cards">
+                        <div class="ck-card">
+                            <h4 class="ck-card-title">Dirección de envío</h4>
+                            <p class="ck-card-strong" id="checkout-ship-name"></p>
+                            <p id="checkout-ship-address"></p>
+                            <p class="ck-card-muted" id="checkout-ship-reference"></p>
+                        </div>
+                        <div class="ck-card">
+                            <h4 class="ck-card-title">Entrega estimada</h4>
+                            <p class="ck-card-strong" id="checkout-eta"></p>
+                            <p class="ck-card-muted" id="checkout-method"></p>
+                        </div>
+                    </div>
+                </div>
+                <footer class="ck-footer">
+                    <div class="ck-actions">
+                        <button type="button" class="btn ck-submit" id="checkout-finish">Volver a la tienda</button>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+
+    <!-- ===== MI CUENTA (MODAL DE PERFIL) ===== -->
+    <div class="account" id="account" aria-hidden="true">
+        <div class="account-backdrop" data-account-close></div>
+        <div class="account-window" id="account-window" role="dialog" aria-modal="true" aria-labelledby="account-name" tabindex="-1">
+            <header class="account-header">
+                <button type="button" class="pmodal-close" aria-label="Cerrar mi cuenta" data-account-close>&times;</button>
+
+                <div class="account-id">
+                    <label class="account-avatar" title="Cambiar foto de perfil">
+                        <input class="sr-only" type="file" id="account-avatar-input" accept="image/*" />
+                        <img id="account-avatar-img" alt="" hidden />
+                        <span class="account-initials" id="account-initials" aria-hidden="true"></span>
+                        <span class="account-avatar-edit" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M4 8.5h3l1.5-2.5h7L17 8.5h3v10H4z" /><circle cx="12" cy="13" r="3.2" /></svg>
+                        </span>
+                        <span class="sr-only">Cambiar foto de perfil</span>
+                    </label>
+                    <div class="account-who">
+                        <h2 class="account-name" id="account-name"></h2>
+                        <p class="account-email" id="account-email"></p>
+                        <span class="account-badge">Miembro ANG VIP</span>
+                    </div>
+                </div>
+
+                <div class="account-tabs" role="tablist" aria-label="Secciones de la cuenta">
+                    <button type="button" class="account-tab" role="tab" id="account-tab-datos" data-tab="datos" aria-controls="account-panel-datos" aria-selected="true">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6" /><path d="M5 20c.6-3.6 3.4-5.5 7-5.5s6.4 1.9 7 5.5" /></svg>
+                        <span>Datos<span class="account-tab-long"> personales</span></span>
+                    </button>
+                    <button type="button" class="account-tab" role="tab" id="account-tab-pedidos" data-tab="pedidos" aria-controls="account-panel-pedidos" aria-selected="false" tabindex="-1">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8l8-4 8 4v8l-8 4-8-4z" /><path d="M4 8l8 4 8-4M12 12v8" /></svg>
+                        <span><span class="account-tab-long">Mis </span>Pedidos</span>
+                    </button>
+                    <button type="button" class="account-tab" role="tab" id="account-tab-direcciones" data-tab="direcciones" aria-controls="account-panel-direcciones" aria-selected="false" tabindex="-1">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6.5-5.6 6.5-11A6.5 6.5 0 0 0 5.5 10c0 5.4 6.5 11 6.5 11z" /><circle cx="12" cy="10" r="2.4" /></svg>
+                        <span>Direcciones</span>
+                    </button>
+                    <button type="button" class="account-tab" role="tab" id="account-tab-seguridad" data-tab="seguridad" aria-controls="account-panel-seguridad" aria-selected="false" tabindex="-1">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2.2" /><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" /></svg>
+                        <span>Seguridad</span>
+                    </button>
+                    <button type="button" class="account-tab" role="tab" id="account-tab-apariencia" data-tab="apariencia" aria-controls="account-panel-apariencia" aria-selected="false" tabindex="-1">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none" /></svg>
+                        <span>Apariencia</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="account-body">
+                <!-- Datos personales -->
+                <section class="account-panel" id="account-panel-datos" role="tabpanel" aria-labelledby="account-tab-datos">
+                    <form class="account-card" id="account-profile" novalidate>
+                        <div class="ck-fields">
+                            <label class="ck-field ck-field-full">
+                                <span class="ck-label">Nombre</span>
+                                <input class="ck-input" type="text" name="name" autocomplete="name" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field ck-field-full">
+                                <span class="ck-label">Correo electrónico</span>
+                                <input class="ck-input" type="email" name="email" autocomplete="email" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field">
+                                <span class="ck-label">Teléfono</span>
+                                <input class="ck-input" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="987 654 321" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field">
+                                <span class="ck-label">DNI / CE</span>
+                                <input class="ck-input" type="text" name="doc" autocomplete="off" maxlength="12" />
+                                <span class="ck-error"></span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn account-submit">Guardar Cambios</button>
+                    </form>
+                </section>
+
+                <!-- Mis pedidos -->
+                <section class="account-panel" id="account-panel-pedidos" role="tabpanel" aria-labelledby="account-tab-pedidos" hidden>
+                    <ul class="acc-orders" id="account-orders"></ul>
+                </section>
+
+                <!-- Direcciones -->
+                <section class="account-panel" id="account-panel-direcciones" role="tabpanel" aria-labelledby="account-tab-direcciones" hidden>
+                    <ul class="acc-addresses" id="account-addresses"></ul>
+                    <button type="button" class="acc-add" id="account-address-add">+ Añadir dirección</button>
+
+                    <form class="account-card" id="account-address-form" novalidate hidden>
+                        <div class="ck-fields">
+                            <label class="ck-field ck-field-full">
+                                <span class="ck-label">Nombre de la dirección</span>
+                                <input class="ck-input" type="text" name="label" autocomplete="off" placeholder="Casa, oficina…" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <fieldset class="ck-field-full">
+                                <legend class="ck-label">Ubicación</legend>
+                                <div class="ck-options ck-options-2">
+                                    <label class="ck-option">
+                                        <input class="sr-only" type="radio" name="zone" value="lima" checked />
+                                        <span class="ck-radio" aria-hidden="true"></span>
+                                        <span class="ck-option-main"><span class="ck-option-title">Lima Metropolitana</span></span>
+                                    </label>
+                                    <label class="ck-option">
+                                        <input class="sr-only" type="radio" name="zone" value="provincias" />
+                                        <span class="ck-radio" aria-hidden="true"></span>
+                                        <span class="ck-option-main"><span class="ck-option-title">Provincias</span></span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <label class="ck-field ck-field-full">
+                                <span class="ck-label">Dirección de entrega</span>
+                                <input class="ck-input" type="text" name="address" autocomplete="street-address" placeholder="Calle, número, distrito" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field ck-field-full">
+                                <span class="ck-label">Referencia <span class="ck-optional">(opcional)</span></span>
+                                <input class="ck-input" type="text" name="reference" autocomplete="off" />
+                            </label>
+                        </div>
+                        <div class="account-actions">
+                            <button type="button" class="ck-back" id="account-address-cancel">Cancelar</button>
+                            <button type="submit" class="btn account-submit">Guardar dirección</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Seguridad -->
+                <section class="account-panel" id="account-panel-seguridad" role="tabpanel" aria-labelledby="account-tab-seguridad" hidden>
+                    <form class="account-card" id="account-password" novalidate>
+                        <h3 class="account-card-title">Cambiar contraseña</h3>
+                        <div class="ck-fields">
+                            <label class="ck-field ck-field-full">
+                                <span class="ck-label">Contraseña actual</span>
+                                <input class="ck-input" type="password" name="current" autocomplete="current-password" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field">
+                                <span class="ck-label">Nueva contraseña</span>
+                                <input class="ck-input" type="password" name="next" autocomplete="new-password" />
+                                <span class="ck-error"></span>
+                            </label>
+                            <label class="ck-field">
+                                <span class="ck-label">Repetir contraseña</span>
+                                <input class="ck-input" type="password" name="repeat" autocomplete="new-password" />
+                                <span class="ck-error"></span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn account-submit">Actualizar contraseña</button>
+                    </form>
+
+                    <div class="account-card">
+                        <h3 class="account-card-title">Notificaciones</h3>
+                        <label class="acc-switch">
+                            <span class="acc-switch-text"><strong>WhatsApp</strong><span>Estado de tus pedidos y avisos de entrega</span></span>
+                            <input class="sr-only" type="checkbox" role="switch" data-notify="whatsapp" />
+                            <span class="acc-switch-track" aria-hidden="true"></span>
+                        </label>
+                        <label class="acc-switch">
+                            <span class="acc-switch-text"><strong>Email</strong><span>Novedades, drops y ofertas del club ANG</span></span>
+                            <input class="sr-only" type="checkbox" role="switch" data-notify="email" />
+                            <span class="acc-switch-track" aria-hidden="true"></span>
+                        </label>
+                    </div>
+
+                    <button type="button" class="acc-logout" id="account-logout">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" /><path d="M10 16l-4-4 4-4M6 12h10" /></svg>
+                        Cerrar Sesión
+                    </button>
+                </section>
+
+                <!-- Apariencia -->
+                <section class="account-panel" id="account-panel-apariencia" role="tabpanel" aria-labelledby="account-tab-apariencia" hidden>
+                    <div class="account-card">
+                        <h3 class="account-card-title">Tema de la tienda</h3>
+                        <div class="acc-themes" role="radiogroup" aria-label="Tema de la tienda">
+                            <label class="acc-theme">
+                                <input class="sr-only" type="radio" name="theme" value="claro" checked />
+                                <span class="acc-theme-preview acc-theme-light" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+                                <span class="acc-theme-name">Claro</span>
+                            </label>
+                            <label class="acc-theme">
+                                <input class="sr-only" type="radio" name="theme" value="oscuro" />
+                                <span class="acc-theme-preview acc-theme-dark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+                                <span class="acc-theme-name">Oscuro</span>
+                            </label>
+                        </div>
+                        <p class="acc-theme-hint">El tema se aplica a toda la tienda y se recuerda en este navegador.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
 
     <!-- Aviso flotante -->
@@ -745,5 +1204,7 @@
     <script src="productos.js"></script>
     <script src="script.js"></script>
     <script src="tienda.js"></script>
+    <script src="checkout.js"></script>
+    <script src="cuenta.js"></script>
 </body>
 </html>

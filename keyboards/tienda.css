@@ -319,7 +319,10 @@
 
 @media (max-width: 767px) {
     /* En móvil la barra ocupa mucho alto: no se queda fija al hacer scroll */
-    .catalog-toolbar-wrap { position: relative; }  /* mantiene z-index: el menú de orden queda sobre las tarjetas */
+    /* relative mantiene el z-index (el menú de orden queda sobre las tarjetas).
+       top: auto es obligatorio: el top: 76px del modo sticky, en relative, desplaza
+       la barra hacia abajo sin empujar la grilla y la monta sobre las tarjetas. */
+    .catalog-toolbar-wrap { position: relative; top: auto; }
     .catalog-search { flex-basis: 100%; }
     .catalog-chips:not(.catalog-switch) { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
     .catalog-switch { padding-left: 0; border-left: none; }

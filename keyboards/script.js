@@ -179,6 +179,7 @@ document.querySelectorAll('.faq-question').forEach(btn => {
     const stage = document.getElementById('carousel3d-stage');
     if (!stage) return;
 
+    const root   = document.getElementById('carousel3d');
     const cards  = Array.from(stage.querySelectorAll('.carousel3d-card'));
     const nameEl = document.getElementById('carousel3d-name');
     const descEl = document.getElementById('carousel3d-desc');
@@ -211,18 +212,27 @@ document.querySelectorAll('.faq-question').forEach(btn => {
         cards.forEach((card, i) => {
             const d   = offsetOf(i);
             const abs = Math.abs(d);
+            // El activo al frente y nítido; los vecinos asoman atrás, pequeños y
+            // desenfocados; el resto queda oculto (así el salto circular no se ve).
             card.style.transform =
                 `translateX(calc(var(--spread) * ${d})) ` +
-                `translateZ(${-abs * 220}px) ` +
-                `rotateY(${-d * 38}deg) ` +
-                `scale(${1 - abs * 0.14})`;
-            card.style.opacity = abs === 0 ? 1 : abs === 1 ? 0.6 : 0.22;
-            card.style.filter  = abs === 0 ? 'none' : `brightness(${1 - abs * 0.06}) blur(${abs * 0.6}px)`;
+                `translateZ(${-abs * 260}px) ` +
+                `rotateY(${-d * 32}deg) ` +
+                `scale(${abs === 0 ? 1 : 0.78 - (abs - 1) * 0.14})`;
+            card.style.opacity = abs === 0 ? 1 : abs === 1 ? 0.5 : 0;
+            card.style.filter  = abs === 0 ? 'none' : `blur(${abs * 3}px) saturate(0.75)`;
             card.style.zIndex  = 10 - abs;
+            card.style.pointerEvents = abs > 1 ? 'none' : '';
             card.classList.toggle('is-active', abs === 0);
             card.setAttribute('aria-hidden', abs !== 0);
         });
         dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+
+        // Halo de fondo con los colores del teclado activo
+        const [glowA, glowB] = cards[current].dataset.glow.split(',');
+        root.style.setProperty('--glow-a', glowA);
+        root.style.setProperty('--glow-b', glowB);
+
         typeCaption(cards[current].dataset.name, cards[current].dataset.desc);
     }
 
@@ -293,10 +303,17 @@ document.querySelectorAll('.faq-question').forEach(btn => {
     });
 
     // Flechas del teclado
-    document.getElementById('carousel3d').addEventListener('keydown', e => {
+    root.addEventListener('keydown', e => {
         if (e.key === 'ArrowLeft')  goTo(current - 1);
         if (e.key === 'ArrowRight') goTo(current + 1);
     });
+
+    // Centro vertical del escenario: ahí se ancla el halo de color
+    function placeGlow() {
+        root.style.setProperty('--stage-y', `${stage.offsetTop + stage.offsetHeight / 2}px`);
+    }
+    window.addEventListener('resize', placeGlow);
+    placeGlow();
 
     layout();
 })();
